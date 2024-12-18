@@ -18,7 +18,7 @@ const Navbar = () => {
                     <span>Signup</span>
                 </div>
             </nav>
-            <div className='h-[0.1rem] w-full bg-slate-200'></div>
+        
         </header>
     )
 }
