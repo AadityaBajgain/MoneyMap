@@ -42,10 +42,10 @@ const deleteExpense = async(req,res)=>{
 // add expense
 
 const addExpense = async (req,res)=>{
-    const {amount,category} =  req.body;
+    const {title,amount,category,description,type,date} =  req.body;
     try {
         const expense = await Expense.create({
-            amount,category
+            title,amount,category,description,type,date
         });
         res.status(200).json(expense);
     }catch(err){
