@@ -12,6 +12,7 @@ const expenseSchema = new Schema({
     },
     category:{
         type:String,
+        enum:["debit","expenditure"],
         required:true
     },
     description:{
@@ -19,13 +20,13 @@ const expenseSchema = new Schema({
     },
     type:{
         type:String,
-        enum:['Education','Entertainment','Utilities','Food','Travel'],
+        enum:['Education','Entertainment','Utilities','Food','Travel','Rent'],
         required:true
     },
     date:{
         type:Date,
         required:true
     }
-},{timestamps:true})
+})
 
 module.exports = mongoose.model('Expense',expenseSchema);

@@ -8,7 +8,7 @@ const Navbar = () => {
                 <Link to='/'>
                     <div>
                         <h2 className='text-3xl font-bold'>
-                            Expense Tracker
+                            Money Map
                         </h2>
                         <p className='text-xs'>Your Expense Management Assistant</p>
                     </div>

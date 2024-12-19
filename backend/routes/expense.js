@@ -16,7 +16,7 @@ router.get('/',allExpense);
 router.get('/:id',singleExpense);
 
 // deleting expense
-router.delete('./:id',deleteExpense);
+router.delete('/:id',deleteExpense);
 
 // adding expense
 router.post('/',addExpense);
