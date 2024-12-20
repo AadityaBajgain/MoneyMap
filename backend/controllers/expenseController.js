@@ -41,22 +41,47 @@ const deleteExpense = async(req,res)=>{
 
 // add expense
 
-const addExpense = async (req,res)=>{
-    const {title,amount,category,description,type,date} =  req.body;
+const createExpense = async (req, res) => {
     try {
+        const { date, ...rest } = req.body;
+
+        const formattedDate = new Date(date); // Ensure the date is a valid Date object
+        if (isNaN(formattedDate)) {
+            return res.status(400).json({ error: 'Invalid date format' });
+        }
+
         const expense = await Expense.create({
-            title,amount,category,description,type,date
+            ...rest,
+            date: formattedDate,
         });
-        res.status(200).json(expense);
+
+        res.status(201).json(expense);
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
+};
+
+
+// edit expense
+const editExpense = async (req,res)=>{
+    const {id} = req.params;
+    const {title,amount,category,description,type,date} = req.body;
+    try{
+        const updatedData  = await Expense.findByIdAndUpdate(id,{title,amount,category,description,type,date},{new:true});
+        if(!updatedData){
+            return res.status(404).json({ message: "Expense data not found" });
+        }
+        res.status(200).json(updatedData);
     }catch(err){
-        console.log(err.message)
-        res.status(400).json({error:err.message})
+        console.log(err.message);
+        res.status(400).json({error:err.messsage})
     }
 }
 
 module.exports = {
     allExpense,
     singleExpense,
-    addExpense,
-    deleteExpense
+    createExpense,
+    deleteExpense,
+    editExpense
 }
