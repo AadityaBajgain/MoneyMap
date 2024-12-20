@@ -7,11 +7,12 @@ import Delete from './Delete'
 const ExpenditureDetails = ({expense}) => {
     const [clicked,setClicked] = useState(false);
     return (
-        <>
+        <tbody>
         <tr className='text-center'>
             <td>{expense.date}</td>
             <td>{expense.title}</td>
             <td>{expense.amount}</td>
+            <td>{expense.category}</td>
             <td>{expense.type}</td>
             <td className='flex justify-center mt-1'>
                 <span className='w-[1rem] cursor-pointer' onClick={()=>setClicked(prev => !prev)} >
@@ -27,11 +28,11 @@ const ExpenditureDetails = ({expense}) => {
         {clicked && (
         <tr>
           <td colSpan={5} className='text-center'>
-            <Delete onCancel={() => setClicked(false)} />
+            <Delete onCancel={() => setClicked(false)} expenseId = {expense._id}/>
           </td>
         </tr>
       )}
-        </>
+        </tbody>
     )
 }
 

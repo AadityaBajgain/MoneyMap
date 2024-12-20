@@ -26,7 +26,7 @@ const Home = () => {
       }
     }
     fetchData();
-  }, [expenses])
+  }, [])
   return (
     <div>
       <div className='m-5 flex justify-around items-end'>
@@ -35,7 +35,7 @@ const Home = () => {
           <img className={`w-[1.5rem] cursor-pointer ${selected === 'chart' ? 'bg-slate-200 rounded-sm' : ''}`} onClick={() => handleOnClick('chart')} src={chart} />
         </div>
         <div className='flex flex-col text-sm'>
-          <p>Type</p>
+          <p>Category</p>
           <select className='border-2 border-slate-400 rounded-md'>
             <option value="">All</option>
             <option value="">Expense</option>
@@ -50,8 +50,8 @@ const Home = () => {
             <option value="">Month</option>
           </select>
         </div>
-        <div>
-          <img className='w-[2rem] cursor-pointer' src={plus} />
+        <div className='bg-green-500 px-2 rounded text-gray-700 hover:bg-green-600 cursor-pointer'>
+          Add
         </div>
       </div>
 
@@ -59,13 +59,16 @@ const Home = () => {
         <h2>Recent Transactions</h2>
         {selected === 'table' &&
           <table className='w-[80vw] max-h-fit'>
-            <tr className='text-sm'>
-              <th>Date</th>
-              <th>Title</th>
-              <th>Amount</th>
-              <th>Type</th>
-              <th>Action</th>
-            </tr>
+            <thead className='text-sm'>
+              <tr>
+                <th>Date</th>
+                <th>Title</th>
+                <th>Amount</th>
+                <th>Category</th>
+                <th>Type</th>
+                <th>Action</th>
+              </tr>
+            </thead>
             {expenses && expenses.map((item) => (
               <ExpenditureDetails key={item._id} expense={item} />
             ))}

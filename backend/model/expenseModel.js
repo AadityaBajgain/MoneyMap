@@ -12,7 +12,7 @@ const expenseSchema = new Schema({
     },
     category: {
         type: String,
-        enum: ["debit", "expenditure"],
+        enum: ["Credit", "Expense"],
         required: true,
     },
     description: {
@@ -24,16 +24,9 @@ const expenseSchema = new Schema({
         required: true,
     },
     date: {
-        type: Date,
+        type: String,
         required: true,
     },
 });
 
-expenseSchema.pre('save', function (next) {
-    if (this.date && typeof this.date === 'string') {
-        this.date = new Date(this.date); // Convert string to a Date object
-    }
-    next();
-});
-
-const Expense = mongoose.model('Expense', expenseSchema);
+module.exports= mongoose.model('Expense', expenseSchema);

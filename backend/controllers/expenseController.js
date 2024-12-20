@@ -44,15 +44,9 @@ const deleteExpense = async(req,res)=>{
 const createExpense = async (req, res) => {
     try {
         const { date, ...rest } = req.body;
-
-        const formattedDate = new Date(date); // Ensure the date is a valid Date object
-        if (isNaN(formattedDate)) {
-            return res.status(400).json({ error: 'Invalid date format' });
-        }
-
         const expense = await Expense.create({
             ...rest,
-            date: formattedDate,
+            date: date.slice(0,10),
         });
 
         res.status(201).json(expense);
