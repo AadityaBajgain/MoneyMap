@@ -4,8 +4,10 @@ import {Link} from 'react-router-dom'
 import deletee from "../assets/delete.png"
 import edit from "../assets/edit.png"
 import Delete from './Delete'
+
+
 const ExpenditureDetails = ({expense}) => {
-    const [clicked,setClicked] = useState(false);
+    const [delClicked,setdelClicked] = useState(false);
     return (
         <tbody>
         <tr className='text-center'>
@@ -15,7 +17,7 @@ const ExpenditureDetails = ({expense}) => {
             <td>{expense.category}</td>
             <td>{expense.type}</td>
             <td className='flex justify-center mt-1'>
-                <span className='w-[1rem] cursor-pointer' onClick={()=>setClicked(prev => !prev)} >
+                <span className='w-[1rem] cursor-pointer' onClick={()=>setdelClicked(prev => !prev)} >
                     <img src={deletee}/> 
                 </span>
                 <span className='w-[1rem]'>
@@ -25,10 +27,10 @@ const ExpenditureDetails = ({expense}) => {
                 </span>
             </td>
         </tr>
-        {clicked && (
+        {delClicked && (
         <tr>
           <td colSpan={5} className='text-center'>
-            <Delete onCancel={() => setClicked(false)} expenseId = {expense._id}/>
+            <Delete onCancel={() => setdelClicked(false)} expenseId = {expense._id}/>
           </td>
         </tr>
       )}

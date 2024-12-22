@@ -20,7 +20,7 @@ const expenseSchema = new Schema({
     },
     type: {
         type: String,
-        enum: ['Education', 'Entertainment', 'Utilities', 'Food', 'Travel', 'Rent'],
+        enum: ['Education', 'Entertainment', 'Utilities', 'Food', 'Travel', 'Rent','Other'],
         required: true,
     },
     date: {

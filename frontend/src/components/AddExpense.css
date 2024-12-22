@@ -1,0 +1,12 @@
+input, select{
+    border:2px solid gray;
+    border-radius: 5px;
+    text-align: center;
+    padding:5px
+}
+
+button{
+    background-color: rgb(56, 127, 56);
+    border-radius: 5px;
+    margin-top: 20px;
+}

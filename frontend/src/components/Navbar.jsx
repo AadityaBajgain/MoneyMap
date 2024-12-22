@@ -13,12 +13,17 @@ const Navbar = () => {
                         <p className='text-xs'>Your Expense Management Assistant</p>
                     </div>
                 </Link>
-                <div className='text-sm '>
-                    <span className="m-2">Login</span>
-                    <span>Signup</span>
+                <div class="flex space-x-4">
+                    <button className="bg-blue-500 hover:bg-blue-600 text-white font-medium px-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2">
+                        Login
+                    </button>
+                    <button className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium px-3 rounded focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2">
+                        Signup
+                    </button>
                 </div>
+
             </nav>
-        
+
         </header>
     )
 }
