@@ -12,9 +12,7 @@ const Home = () => {
   const [expenses, setExpenses] = useState(null);
   const [selected, setSelected] = useState('table');
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [addExpense,setAddExpense] = useState(false);
-
-
+  const [dataChanged, setDataChanged] = useState(false);
   const handleOnClick = (item) => {
     setSelected(item);
   };
@@ -30,10 +28,13 @@ const Home = () => {
 
   useEffect(() => {
     fetchData();
-  }, [addExpense]);
+  }, [dataChanged]);
 
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
+  };
+  const handleDataChange = () => {
+    setDataChanged(!dataChanged);
   };
 
   const filteredExpenses = expenses?.filter((expense) => {
@@ -42,7 +43,6 @@ const Home = () => {
     }
     return expense.category === selectedCategory;
   });
-
   return (
     <div>
       <div className='m-5 flex justify-around items-end'>
@@ -97,12 +97,12 @@ const Home = () => {
               </thead>
                 {filteredExpenses &&
                   filteredExpenses.map((item) => (
-                    <ExpenditureDetails key={item._id} expense={item} />
+                    <ExpenditureDetails onDelete = {handleDataChange}  key={item._id} expense={item} />
                   ))}
             </table>}
         </div>
         <div className='w-[20vw] mt-6 left-[65vw] fixed'>
-          <AddExpense onAdd={()=>setAddExpense(!addExpense)}/>
+          <AddExpense onAdd={handleDataChange}/>
         </div>
       </div>
     </div>

@@ -72,7 +72,9 @@ const AddExpense = ({onAdd}) => {
                 <option>Other</option>
             </select>
             <button>Submit</button>
-            {error && <div>Error!!{error}</div>}
+            {
+                title || date || amount || category || type ? <p className='text-red-500'>Please fill all the fields</p> : null
+            }
             </div>
         </form>
     )

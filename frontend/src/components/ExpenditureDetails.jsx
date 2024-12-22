@@ -6,14 +6,14 @@ import edit from "../assets/edit.png"
 import Delete from './Delete'
 
 
-const ExpenditureDetails = ({expense}) => {
+const ExpenditureDetails = ({expense,onDelete}) => {
     const [delClicked,setdelClicked] = useState(false);
     return (
         <tbody>
         <tr className='text-center'>
             <td>{expense.date}</td>
             <td>{expense.title}</td>
-            <td>{expense.amount}</td>
+            <td>${expense.amount}</td>
             <td>{expense.category}</td>
             <td>{expense.type}</td>
             <td className='flex justify-center mt-1'>
@@ -30,7 +30,7 @@ const ExpenditureDetails = ({expense}) => {
         {delClicked && (
         <tr>
           <td colSpan={5} className='text-center'>
-            <Delete onCancel={() => setdelClicked(false)} expenseId = {expense._id}/>
+            <Delete onDelete={onDelete} onCancel={() => setdelClicked(false)} expenseId = {expense._id}/>
           </td>
         </tr>
       )}
