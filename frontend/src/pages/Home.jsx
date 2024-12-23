@@ -36,24 +36,26 @@ const Home = () => {
   const handleDataChange = () => {
     setDataChanged(!dataChanged);
   };
-
   const filteredExpenses = expenses?.filter((expense) => {
     if (selectedCategory === 'All') {
       return true;
     }
     return expense.category === selectedCategory;
   });
+
+
+
   return (
     <div>
       <div className='m-5 flex justify-around items-end'>
-        <div className='w-fit flex space-x-2 border-black border-2 p-1 rounded-md'>
+        <div className='w-fit flex space-x-2 border-white border-2 p-1 rounded-md'>
           <img
-            className={`w-[1.5rem] cursor-pointer ${selected === 'table' ? 'bg-slate-200 rounded-sm' : ''}`}
+            className={`w-[1.5rem] cursor-pointer ${selected === 'table' ? 'bg-green-200 rounded-sm' : 'bg-slate-500 rounded-sm'}`}
             onClick={() => handleOnClick('table')}
             src={table}
           />
           <img
-            className={`w-[1.5rem] cursor-pointer ${selected === 'chart' ? 'bg-slate-200 rounded-sm' : ''}`}
+            className={`w-[1.5rem] cursor-pointer ${selected === 'chart' ? 'bg-green-200 rounded-sm' : 'bg-slate-500 rounded-sm'}`}
             onClick={() => handleOnClick('chart')}
             src={chart}
           />
@@ -61,7 +63,7 @@ const Home = () => {
         <div className='flex flex-col text-sm'>
           <p>Category</p>
           <select
-            className='border-2 border-slate-400 rounded-md'
+            className='border-2 border-slate-400 rounded-md text-black'
             onChange={handleCategoryChange}
             value={selectedCategory}
           >
@@ -70,22 +72,22 @@ const Home = () => {
             <option value="Credit">Credit</option>
           </select>
         </div>
-        <div className='flex flex-col text-sm'>
+        <div className='flex flex-col text-sm '>
           <p>Frequency</p>
-          <select className='border-2 border-slate-400 rounded-md px-2'>
-            <option value="">Today</option>
-            <option value="">Week</option>
-            <option value="">Month</option>
+          <select className='border-2 border-slate-400 rounded-md  text-black px-2'>
+            <option value="1">Today</option>
+            <option value="7">Week</option>
+            <option value="30">Month</option>
           </select>
         </div>
       </div>
 
-      <div className='flex'>
+      <div className='flex justify-around w-[90vw]'>
         <div>
-          <h2>Recent Transactions</h2>
+          <h2 className='text-4xl text-center my-5'>Recent Transactions</h2>
           {selected === 'table' &&
             <table className='w-[60vw] max-h-fit'>
-              <thead className='text-sm'>
+              <thead className='text-lg'>
                 <tr>
                   <th>Date</th>
                   <th>Title</th>
@@ -95,14 +97,21 @@ const Home = () => {
                   <th>Action</th>
                 </tr>
               </thead>
-                {filteredExpenses &&
-                  filteredExpenses.map((item) => (
-                    <ExpenditureDetails onDelete = {handleDataChange}  key={item._id} expense={item} />
-                  ))}
+              {filteredExpenses &&
+
+                filteredExpenses.map((item) => (
+                  <ExpenditureDetails
+                    onDelete={handleDataChange}
+                    key={item._id}
+                    expense={item}
+                  />
+                ))
+              }
+             
             </table>}
         </div>
-        <div className='w-[20vw] mt-6 left-[65vw] fixed'>
-          <AddExpense onAdd={handleDataChange}/>
+        <div className='w-[20vw]'>
+          <AddExpense onAdd={handleDataChange} />
         </div>
       </div>
     </div>

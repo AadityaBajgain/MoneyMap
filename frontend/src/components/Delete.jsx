@@ -1,31 +1,24 @@
-import React from "react";
+const handleDeleteClick = async () => {
+  try {
+    const response = await fetch(`http://localhost:3001/api/expense/${expenseId}`, {
+      method: 'DELETE',
+    });
 
-const Delete = ({ onCancel, expenseId,onDelete }) => {
-  const handleDeleteClick = async () => {
-    try {
-      const response = await fetch(`http://localhost:3001/api/expense/${expenseId}`, {
-        method: 'DELETE',
-      });
-  
-      if (response.ok) {
-        onDelete(); 
-      } else {
-        console.error('Failed to delete expense');
-      }
-    } catch (error) {
-      console.log(error.message);
+    if (response.ok) {
+      onDelete();
+    } else {
+      console.error('Failed to delete expense');
     }
-  };
-  
-  return (
-    <div>
-      <p>Are you sure you want to delete?</p>
-      <div className="flex justify-around">
-        <button className="bg-green-400" onClick={onCancel}>Cancel</button>
-        <button className="bg-red-400" onClick={handleDeleteClick}>Delete</button>
-      </div>
-    </div>
-  );
+  } catch (error) {
+    console.log(error.message);
+  }
 };
-
-export default Delete;
+function deleteForSure() {
+  let sure = prompt("Are you sure you want to delete this expense? Type 'yes' to confirm");
+  if (sure === 'yes') {
+    handleDeleteClick();
+  }
+  else if (sure === null) {
+    onCancel();
+  }
+}
