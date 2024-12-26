@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import "./AddExpense.css";
 
 const AddExpense = ({ onAdd }) => {
-  const [title, setTitle] = useState(null);
-  const [date, setDate] = useState(null);
-  const [amount, setAmount] = useState(null);
+  const [title, setTitle] = useState('');
+  const [date, setDate] = useState('');
+  const [amount, setAmount] = useState('');
   const [category, setCategory] = useState('All');
   const [type, setType] = useState('All');
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();

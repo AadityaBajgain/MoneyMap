@@ -8,6 +8,7 @@ import Graph from '../components/Graph';
 import chart from "../assets/chart.png";
 import table from "../assets/table.png";
 import AddExpense from '../components/AddExpense';
+import TableSummary from '../components/TableSummary';
 
 const Home = () => {
   const [expenses, setExpenses] = useState(null);
@@ -51,15 +52,15 @@ const Home = () => {
 
   const filteredExpensesByFrequency = filteredExpenses?.filter((expense) => {
     const date = new Date();
-    const expenseDate  = new Date(expense.date);
+    const expenseDate = new Date(expense.date);
     const diffTime = Math.abs(date - expenseDate);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
+
     if (selectedFrequency === '1') {
       return diffDays <= 1;
-    } else if (selectedFrequency === '7') {   
+    } else if (selectedFrequency === '7') {
       return diffDays <= 7;
-    } else if (selectedFrequency === '30') {   
+    } else if (selectedFrequency === '30') {
       return diffDays <= 30;
     } else {
       return true;
@@ -68,6 +69,9 @@ const Home = () => {
 
   return (
     <div>
+      <div className='flex justify-center items-center'>
+      <TableSummary expenses={expenses} />
+      </div>
       <div className='m-5 flex justify-around items-end'>
         <div className='w-fit flex space-x-2 border-white border-2 p-1 rounded-md'>
           <img
@@ -103,8 +107,8 @@ const Home = () => {
         </div>
       </div>
 
-      <div className='flex justify-around w-[90vw]'>
-        <div className='w-full lg:w-[75vw]'>
+      <div className='flex justify-around w-[85vw]'>
+        <div className='w-[60vw]'>
           <h2 className='text-4xl text-center my-5'>Recent Transactions</h2>
           {selected === 'table' &&
             <table className='w-full max-h-fit'>
@@ -119,6 +123,7 @@ const Home = () => {
                   <th>Action</th>
                 </tr>
               </thead>
+              <tbody>
               {filteredExpensesByFrequency &&
                 filteredExpensesByFrequency.map((item) => (
                   <ExpenditureDetails
@@ -129,10 +134,11 @@ const Home = () => {
                   />
                 ))
               }
+              </tbody>
             </table>
           }
           {selected === 'chart' &&
-            <Graph expenseData={filteredExpensesByFrequency} />
+            <Graph className='w-full max-h-fit'expenseData={filteredExpensesByFrequency} />
           }
         </div>
         <div className='w-[20vw] mt-10'>
