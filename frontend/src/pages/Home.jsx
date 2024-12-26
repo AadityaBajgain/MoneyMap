@@ -12,7 +12,7 @@ const Home = () => {
   const [expenses, setExpenses] = useState(null);
   const [selected, setSelected] = useState('table');
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [selectedFrequency, setSelectedFrequency] = useState('1');
+  const [selectedFrequency, setSelectedFrequency] = useState('30');
   const [dataChanged, setDataChanged] = useState(false);
   const handleOnClick = (item) => {
     setSelected(item);
@@ -53,7 +53,7 @@ const Home = () => {
     const expenseDate  = new Date(expense.date);
     const diffTime = Math.abs(date - expenseDate);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
+    
     if (selectedFrequency === '1') {
       return diffDays <= 1;
     } else if (selectedFrequency === '7') {   
@@ -124,7 +124,7 @@ const Home = () => {
                     onDelete={handleDataChange}
                     key={item._id}
                     expense={item}
-                    index={filteredExpenses.indexOf(item) + 1}
+                    index={filteredExpensesByFrequency.indexOf(item) + 1}
                   />
                 ))
               }

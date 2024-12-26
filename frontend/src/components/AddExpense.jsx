@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import "./AddExpense.css";
 
 const AddExpense = ({ onAdd }) => {
-  const [title, setTitle] = useState('');
-  const [date, setDate] = useState('');
-  const [amount, setAmount] = useState(0);
-  const [category, setCategory] = useState();
+  const [title, setTitle] = useState(null);
+  const [date, setDate] = useState(null);
+  const [amount, setAmount] = useState(null);
+  const [category, setCategory] = useState('All');
   const [type, setType] = useState('All');
   const [error, setError] = useState(null);
 
@@ -84,7 +84,11 @@ const AddExpense = ({ onAdd }) => {
           <option>Education</option>
           <option>Other</option>
         </select>
-        <button>Submit</button>
+        {
+          (title && amount && date && category && type) ?
+          <button>Submit</button>:<button disabled>Submit</button>
+        }
+       
       </div>
     </form>
   );
