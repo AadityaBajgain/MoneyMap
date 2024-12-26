@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import deletee from "../assets/delete.png"
 import edit from "../assets/edit.png"
 
-const ExpenditureDetails = ({ expense, onDelete }) => {
+const ExpenditureDetails = ({ expense, onDelete,index }) => {
     const handleDeleteClick = async () => {
         try {
             const response = await fetch(`http://localhost:3001/api/expense/${expense._id}`, {
@@ -28,31 +28,32 @@ const ExpenditureDetails = ({ expense, onDelete }) => {
         else if (sure === null || sure !== 'yes') {
             onCancel();
         }
-    }
+    }   
     function onCancel() {
         alert('Expense not deleted');
     }
     return (
-        <tbody className='text-md text-gray-400'>
-            <tr className='text-center'>
-                <td>{expense.date}</td>
-                <td>{expense.title}</td>
-                <td>${expense.amount}</td>
-                <td>{expense.category}</td>
-                <td>{expense.type}</td>
-                <td className='flex justify-center mt-1'>
-                    <span className='w-[1.5rem] cursor-pointer' onClick={(deleteForSure)}  >
-                        <img src={deletee} />
-                    </span>
-                    <span className='w-[1.5rem]'>
-                        <Link to='/edit'>
-                            <img src={edit} />
-                        </Link>
-                    </span>
-                </td>
-            </tr>
-        </tbody>
+
+        <tr className='text-center '>
+            <td className='py-2'>{index}</td>
+            <td className='py-2'>{expense.date}</td>
+            <td className='py-2'>{expense.title}</td>
+            <td className='py-2'>${expense.amount}</td>
+            <td className='hidden lg:table-cell py-2'>{expense.category}</td>
+            <td className='hidden lg:table-cell py-2'>{expense.type}</td>
+            <td className='flex justify-center mt-1 space-x-2'>
+                <span className='w-[1.5rem] cursor-pointer' onClick={(deleteForSure)}  >
+                    <img src={deletee} alt="Delete" />
+                </span>
+                <span className='w-[1.5rem]'>
+                    <Link to='/edit'>
+                        <img src={edit} alt="Edit" />
+                    </Link>
+                </span>
+            </td>
+        </tr>
+
     )
 }
 
-export default ExpenditureDetails;
+export default ExpenditureDetails

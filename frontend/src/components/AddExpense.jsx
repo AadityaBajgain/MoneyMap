@@ -12,7 +12,6 @@ const AddExpense = ({ onAdd }) => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate date format (dd-mm-yyyy)
     const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
     if (!dateRegex.test(date)) {
       setError("Date must be in the format dd-mm-yyyy.");

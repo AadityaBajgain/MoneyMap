@@ -12,6 +12,7 @@ const Home = () => {
   const [expenses, setExpenses] = useState(null);
   const [selected, setSelected] = useState('table');
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedFrequency, setSelectedFrequency] = useState('1');
   const [dataChanged, setDataChanged] = useState(false);
   const handleOnClick = (item) => {
     setSelected(item);
@@ -30,8 +31,12 @@ const Home = () => {
     fetchData();
   }, [dataChanged]);
 
+
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
+  };
+  const handleFrequencyChange = (event) => {
+    setSelectedFrequency(event.target.value);
   };
   const handleDataChange = () => {
     setDataChanged(!dataChanged);
@@ -43,7 +48,22 @@ const Home = () => {
     return expense.category === selectedCategory;
   });
 
+  const filteredExpensesByFrequency = filteredExpenses?.filter((expense) => {
+    const date = new Date();
+    const expenseDate  = new Date(expense.date);
+    const diffTime = Math.abs(date - expenseDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
+    if (selectedFrequency === '1') {
+      return diffDays <= 1;
+    } else if (selectedFrequency === '7') {   
+      return diffDays <= 7;
+    } else if (selectedFrequency === '30') {   
+      return diffDays <= 30;
+    } else {
+      return true;
+    };
+  });
 
   return (
     <div>
@@ -74,7 +94,7 @@ const Home = () => {
         </div>
         <div className='flex flex-col text-sm '>
           <p>Frequency</p>
-          <select className='border-2 border-slate-400 rounded-md  text-black px-2'>
+          <select className='border-2 border-slate-400 rounded-md  text-black px-2' onChange={handleFrequencyChange} value={selectedFrequency}>
             <option value="1">Today</option>
             <option value="7">Week</option>
             <option value="30">Month</option>
@@ -83,34 +103,35 @@ const Home = () => {
       </div>
 
       <div className='flex justify-around w-[90vw]'>
-        <div>
+        <div className='w-full lg:w-[75vw]'>
           <h2 className='text-4xl text-center my-5'>Recent Transactions</h2>
           {selected === 'table' &&
-            <table className='w-[60vw] max-h-fit'>
+            <table className='w-full max-h-fit'>
               <thead className='text-lg'>
                 <tr>
+                  <th>Index</th>
                   <th>Date</th>
                   <th>Title</th>
                   <th>Amount</th>
-                  <th>Category</th>
-                  <th>Type</th>
+                  <th className='hidden lg:table-cell'>Category</th>
+                  <th className='hidden lg:table-cell'>Type</th>
                   <th>Action</th>
                 </tr>
               </thead>
-              {filteredExpenses &&
-
-                filteredExpenses.map((item) => (
+              {filteredExpensesByFrequency &&
+                filteredExpensesByFrequency.map((item) => (
                   <ExpenditureDetails
                     onDelete={handleDataChange}
                     key={item._id}
                     expense={item}
+                    index={filteredExpenses.indexOf(item) + 1}
                   />
                 ))
               }
-             
-            </table>}
+            </table>
+          }
         </div>
-        <div className='w-[20vw]'>
+        <div className='w-[20vw] mt-10'>
           <AddExpense onAdd={handleDataChange} />
         </div>
       </div>
