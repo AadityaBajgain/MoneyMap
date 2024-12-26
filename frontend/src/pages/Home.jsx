@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 // components
 import ExpenditureDetails from '../components/ExpenditureDetails';
+import Graph from '../components/Graph';
 
 // images
 import chart from "../assets/chart.png";
@@ -72,12 +73,12 @@ const Home = () => {
           <img
             className={`w-[1.5rem] cursor-pointer ${selected === 'table' ? 'bg-green-200 rounded-sm' : 'bg-slate-500 rounded-sm'}`}
             onClick={() => handleOnClick('table')}
-            src={table}
+            src={table} alt='table'
           />
           <img
             className={`w-[1.5rem] cursor-pointer ${selected === 'chart' ? 'bg-green-200 rounded-sm' : 'bg-slate-500 rounded-sm'}`}
             onClick={() => handleOnClick('chart')}
-            src={chart}
+            src={chart} alt='chart'
           />
         </div>
         <div className='flex flex-col text-sm'>
@@ -129,6 +130,9 @@ const Home = () => {
                 ))
               }
             </table>
+          }
+          {selected === 'chart' &&
+            <Graph expenseData={filteredExpensesByFrequency} />
           }
         </div>
         <div className='w-[20vw] mt-10'>
