@@ -8,7 +8,7 @@ import Graph from '../components/Graph';
 import chart from "../assets/chart.png";
 import table from "../assets/table.png";
 import AddExpense from '../components/AddExpense';
-import TableSummary from '../components/TableSummary';
+import TableSummary from '../components/Summary';
 
 const Home = () => {
   const [expenses, setExpenses] = useState(null);

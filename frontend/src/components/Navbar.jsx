@@ -3,15 +3,14 @@ import { Link } from 'react-router-dom';
 
 import money from '../assets/money.png'
 const Navbar = () => {
-    //     const [state,dispatch] = useReducer(useReducer,{})
     return (
-        <header className='top-0 left-0 right-0 z-1 shadow-md p-4 bg-transparent'>
+        <header className='p-4'>
             <nav className='flex justify-between items-center'>
                 <Link to='/'>
                     <div>
                         <div className='flex items-end space-x-2'>
-                            <h2 className="text-4xl font-bold bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 text-transparent bg-clip-text">
-                                Money Map
+                            <h2 className="text-4xl font-bold font- bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 text-transparent bg-clip-text">
+                                MoneyMap
                             </h2>
                             <img className="h-[2rem]" src={money} />
                         </div>
