@@ -108,7 +108,7 @@ const Home = () => {
       </div>
 
       <div className='flex justify-around w-[85vw]'>
-        <div className='w-[60vw]'>
+        <div className='w-[60vw] mt-10'>
           <h2 className='text-4xl text-center my-5'>Recent Transactions</h2>
           {selected === 'table' &&
             <table className='w-full max-h-fit'>

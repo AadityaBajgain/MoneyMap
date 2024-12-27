@@ -57,7 +57,7 @@ const TableSummary = ({ expenses }) => {
                 <h1 className='text-4xl font-bold'>Transaction Summary</h1>
                 <div className='text-center'>
                     <p className='text-xl'>Total: <span className='text-blue-400'>${total}</span></p>
-                    <h2 className='text-3xl'>Categories</h2>
+                    <h2 className='text-2xl underline'>Categories wise Expense:</h2>
                     <div className='flex flex-col space-y-2 text-lg items-center mr-5'>
                         <p className='flex'><img className='w-[1.5rem] h-[1.5rem]' src={greenArrow} />Credit Amount:<span className='text-green-600 ml-2'> ${creditAmount}</span></p>
                         <p className='flex'><img className='w-[2rem] h-fit' src={redArrow} /> Expense Amount:<span className='text-red-600 ml-2'> ${expenseAmount}</span></p>
