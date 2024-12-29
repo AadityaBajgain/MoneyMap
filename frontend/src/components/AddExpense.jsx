@@ -43,7 +43,7 @@ const AddExpense = ({ onAdd }) => {
 
   return (
     <form
-      className='w-[30vw] border-2 border-slate-400 rounded-md p-4 text-center'
+      className='w-[30vw] border-2 border-slate-400 rounded-md p-4 text-center mt-[8rem]'
       onSubmit={handleFormSubmit}
     >
       <h2 className='text-xl text-blue-300'>Add new Expense</h2>

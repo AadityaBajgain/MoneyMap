@@ -64,7 +64,7 @@ const TableSummary = ({ expenses }) => {
                     </div>
                 </div>
             </div>
-            <div className='w-[200px] h-[200px] pt-2'>
+            <div className='w-[200px] h-[200px] p-2'>
                 <Pie data={data} options={options} />
             </div>
         </div>

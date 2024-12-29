@@ -66,11 +66,13 @@ const Home = () => {
       return true;
     };
   });
+  const amounts = expenses?.map((expense) => expense.amount) || [];
+    const total = amounts.reduce((acc, item) => acc + item, 0).toFixed(2);
 
   return (
     <div>
       <div className='flex justify-center items-center'>
-      <TableSummary expenses={expenses} />
+        <TableSummary expenses={expenses} />
       </div>
       <div className='m-5 flex justify-around items-end'>
         <div className='w-fit flex space-x-2 border-white border-2 p-1 rounded-md'>
@@ -94,7 +96,7 @@ const Home = () => {
           >
             <option value="All">All</option>
             <option value="Expense">Expense</option>
-            <option value="Credit">Credit</option>
+            <option value="Credit">Income</option>
           </select>
         </div>
         <div className='flex flex-col text-sm '>
@@ -107,7 +109,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div className='flex justify-around w-[85vw]'>
+      <div className='flex justify-between w-[85vw]'>
         <div className='w-[60vw] mt-10'>
           <h2 className='text-4xl text-center my-5'>Recent Transactions</h2>
           {selected === 'table' &&
@@ -124,24 +126,33 @@ const Home = () => {
                 </tr>
               </thead>
               <tbody>
-              {filteredExpensesByFrequency &&
-                filteredExpensesByFrequency.map((item) => (
-                  <ExpenditureDetails
-                    onDelete={handleDataChange}
-                    key={item._id}
-                    expense={item}
-                    index={filteredExpensesByFrequency.indexOf(item) + 1}
-                  />
-                ))
-              }
+                {filteredExpensesByFrequency &&
+                  filteredExpensesByFrequency.map((item) => (
+                    <ExpenditureDetails
+                      onDelete={handleDataChange}
+                      key={item._id}
+                      expense={item}
+                      index={filteredExpensesByFrequency.indexOf(item) + 1}
+                    />
+                  ))
+                }
               </tbody>
             </table>
           }
           {selected === 'chart' &&
-            <Graph className='w-full max-h-fit'expenseData={filteredExpensesByFrequency} />
+            <div className='flex flex-wrap justify-center'>
+              {filteredExpensesByFrequency && filteredExpensesByFrequency.map((item) => (
+                <Graph onDelete={handleDataChange}
+                key={item._id}
+                expense={item}
+                index={filteredExpensesByFrequency.indexOf(item)} 
+                total={total}/>
+              ))}
+
+            </div>
           }
         </div>
-        <div className='w-[20vw] mt-10'>
+        <div className='w-[20vw]'>
           <AddExpense onAdd={handleDataChange} />
         </div>
       </div>
