@@ -8,16 +8,30 @@ const AddExpense = ({ onAdd }) => {
   const [category, setCategory] = useState('All');
   const [type, setType] = useState('All');
   const [error, setError] = useState('');
-
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-
+  
     const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
     if (!dateRegex.test(date)) {
       setError("Date must be in the format dd-mm-yyyy.");
       return;
     }
-
+  
+    // Convert the date from dd-mm-yyyy to yyyy-mm-dd for validation
+    const [day, month, year] = date.split('-').map(Number);
+    const formattedDate = new Date(year, month - 1, day); // Months are 0-based in JS Date
+    
+    if (isNaN(formattedDate.getTime())) {
+      setError("Invalid date provided.");
+      return;
+    }
+  
+    if (formattedDate > new Date()) {
+      setError("Date cannot be in the future.");
+      return;
+    }
+  
+    // Proceed with the API request
     const response = await fetch('http://localhost:3001/api/expense', {
       method: 'POST',
       body: JSON.stringify({ title, amount, date, category, type }),
@@ -25,21 +39,21 @@ const AddExpense = ({ onAdd }) => {
         'Content-Type': 'application/json',
       },
     });
-    const json = await response.json();
-
+  
     if (!response.ok) {
-      setError(json.error);
+      setError("Failed to save expense. Please try again.");
+      return;
     }
-    if (response.ok) {
-      setError(null);
-      setTitle('');
-      setAmount(0);
-      setCategory('All');
-      setDate('');
-      setType('All');
-    }
-    onAdd();
+  
+    // Reset form and errors
+    setError("");
+    setTitle("");
+    setAmount("");
+    setDate("");
+    setCategory("");
+    setType("");
   };
+  
 
   return (
     <form

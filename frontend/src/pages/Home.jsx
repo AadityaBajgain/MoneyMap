@@ -51,24 +51,38 @@ const Home = () => {
   });
 
   const filteredExpensesByFrequency = filteredExpenses?.filter((expense) => {
-    const date = new Date();
-    const expenseDate = new Date(expense.date);
-    const diffTime = Math.abs(date - expenseDate);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    if (selectedFrequency === '1') {
-      return diffDays <= 1;
-    } else if (selectedFrequency === '7') {
-      return diffDays <= 7;
-    } else if (selectedFrequency === '30') {
-      return diffDays <= 30;
-    } else {
-      return true;
+    if (!expense.date) return false; // Skip if the date is missing
+  
+    // Custom parsing for 'MM,DD,YYYY' format
+    const parseDate = (dateStr) => {
+      const [day, month, year] = dateStr.split('-').map(Number); // Split and convert to numbers
+      return new Date(year, month - 1, day); // Months are 0-based in JS Date
     };
+  
+    const today = new Date(); // Current date
+    const expenseDate = parseDate(expense.date);
+  
+    if (isNaN(expenseDate)) return false; // Skip invalid dates
+  
+    // Calculate the difference in days
+    const diffTime = today - expenseDate;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  
+    if (selectedFrequency === '1') {
+      return diffDays === 0; // Include only today's expenses
+    } else if (selectedFrequency === '7') {
+      return diffDays >= 0 && diffDays <= 7; // Include expenses from the past week
+    } else if (selectedFrequency === '30') {
+      return diffDays >= 0 && diffDays <= 30; // Include expenses from the past month
+    } else {
+      return true; // Include all expenses by default
+    }
   });
+  
+  
+  
   const amounts = expenses?.map((expense) => expense.amount) || [];
-    const total = amounts.reduce((acc, item) => acc + item, 0).toFixed(2);
-
+  const total = amounts.reduce((acc, item) => acc + item, 0).toFixed(2);
   return (
     <div>
       <div className='flex justify-center items-center'>
@@ -143,10 +157,10 @@ const Home = () => {
             <div className='flex flex-wrap justify-center'>
               {filteredExpensesByFrequency && filteredExpensesByFrequency.map((item) => (
                 <Graph onDelete={handleDataChange}
-                key={item._id}
-                expense={item}
-                index={filteredExpensesByFrequency.indexOf(item)} 
-                total={total}/>
+                  key={item._id}
+                  expense={item}
+                  index={filteredExpensesByFrequency.indexOf(item)}
+                  total={total} />
               ))}
 
             </div>
