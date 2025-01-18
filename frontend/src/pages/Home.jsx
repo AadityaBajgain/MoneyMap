@@ -16,6 +16,7 @@ const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedFrequency, setSelectedFrequency] = useState('30');
   const [dataChanged, setDataChanged] = useState(false);
+  const [total, setTotal] = useState(0);
   const handleOnClick = (item) => {
     setSelected(item);
   };
@@ -26,13 +27,14 @@ const Home = () => {
 
     if (response.ok) {
       setExpenses(json);
+      const totalAmount = json.reduce((acc, expense) => acc + expense.amount, 0);
+      setTotal(totalAmount);
     }
   };
 
   useEffect(() => {
     fetchData();
   }, [dataChanged]);
-
 
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
@@ -76,11 +78,7 @@ const Home = () => {
       return true;
     }
   });
-  
-  
-  
-  const amounts = expenses?.map((expense) => expense.amount) || [];
-  const total = amounts.reduce((acc, item) => acc + item, 0).toFixed(2);
+
   return (
     <div>
       <div className='flex justify-center items-center'>
@@ -125,31 +123,33 @@ const Home = () => {
         <div className='w-[60vw] mt-10'>
           <h2 className='text-4xl text-center my-5'>Recent Transactions</h2>
           {selected === 'table' &&
-            <table className='w-full max-h-fit'>
-              <thead className='text-lg'>
-                <tr>
-                  <th>Index</th>
-                  <th>Date</th>
-                  <th>Title</th>
-                  <th>Amount</th>
-                  <th className='hidden lg:table-cell'>Category</th>
-                  <th className='hidden lg:table-cell'>Type</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredExpensesByFrequency &&
-                  filteredExpensesByFrequency.map((item) => (
-                    <ExpenditureDetails
-                      onDelete={handleDataChange}
-                      key={item._id}
-                      expense={item}
-                      index={filteredExpensesByFrequency.indexOf(item) + 1}
-                    />
-                  ))
-                }
-              </tbody>
-            </table>
+            <div className='overflow-x-auto'>
+              <table className='w-full max-h-fit'>
+                <thead className='text-md md:text-lg'>
+                  <tr>
+                    <th>Index</th>
+                    <th className='hidden md:table-cell'>Date</th>
+                    <th>Title</th>
+                    <th>Amount</th>
+                    <th className='hidden lg:table-cell'>Category</th>
+                    <th className='hidden lg:table-cell'>Type</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredExpensesByFrequency &&
+                    filteredExpensesByFrequency.map((item) => (
+                      <ExpenditureDetails
+                        onDelete={handleDataChange}
+                        key={item._id}
+                        expense={item}
+                        index={filteredExpensesByFrequency.indexOf(item) + 1}
+                      />
+                    ))
+                  }
+                </tbody>
+              </table>
+            </div>
           }
           {selected === 'chart' &&
             <div className='flex flex-wrap justify-center'>
@@ -160,7 +160,6 @@ const Home = () => {
                   index={filteredExpensesByFrequency.indexOf(item)}
                   total={total} />
               ))}
-
             </div>
           }
         </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "./EditExpense.css";
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -11,6 +11,24 @@ const EditExpense = () => {
   const [error, setError] = useState('');
   const { id } = useParams();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchExpense = async () => {
+      const response = await fetch(`http://localhost:3001/api/expense/${id}`);
+      if (response.ok) {
+        const expense = await response.json();
+        setTitle(expense.title);
+        setDate(expense.date);
+        setAmount(expense.amount);
+        setCategory(expense.category);
+        setType(expense.type);
+      } else {
+        setError("Failed to fetch expense details.");
+      }
+    };
+
+    fetchExpense();
+  }, [id]);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -58,38 +76,49 @@ const EditExpense = () => {
     <div>
       <h1 className='text-4xl text-center mt-5 mb-0'>Edit Expense</h1>
       <form
-        className='w-[50vw] border-2 border-slate-400 rounded-md p-4 text-center mt-[2rem]'
+        className='w-[90vw] md:w-[50vw] border-2 border-slate-400 rounded-md p-4 text-center mt-[2rem]'
         onSubmit={handleFormSubmit}
       >
-        <h2 className='text-xl text-blue-300'>Add new Expense</h2>
+        <h1 className='text-[4rem] text-blue-300'>Edit Expense</h1>
         <div className='flex flex-col'>
           {error && <p className='text-red-500'>{error}</p>}
-          <label>Title</label>
+          <label className='text-sm md:text-base'>Title</label>
           <input
             type="text"
+            className='w-full md:w-auto text-sm md:text-base'
             onChange={(e) => setTitle(e.target.value)}
             value={title}
           />
-          <label>Amount:</label>
+          <label className='text-sm md:text-base'>Amount:</label>
           <input
             type="number"
+            className='w-full md:w-auto text-sm md:text-base'
             onChange={(e) => setAmount(e.target.value)}
             value={amount}
           />
-          <label>Category</label>
-          <select value={category} onChange={(e) => setCategory(e.target.value)}>
+          <label className='text-sm md:text-base'>Category</label>
+          <select
+            className='w-full md:w-auto text-sm md:text-base'
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
             <option value="All">All</option>
             <option value='Expense'>Expense</option>
-            <option value='Credit'>Credit</option>
+            <option value='Income'>Income</option>
           </select>
-          <label>Date *(dd-mm-yyyy)</label>
+          <label className='text-sm md:text-base'>Date *(dd-mm-yyyy)</label>
           <input
             type="text"
+            className='w-full md:w-auto text-sm md:text-base'
             onChange={(e) => setDate(e.target.value)}
             value={date}
           />
-          <label>Type</label>
-          <select value={type} onChange={(e) => setType(e.target.value)}>
+          <label className='text-sm md:text-base'>Type</label>
+          <select
+            className='w-full md:w-auto text-sm md:text-base'
+            value={type}
+            onChange={(e) => setType(e.target.value)}
+          >
             <option value="">All</option>
             <option>Food</option>
             <option>Travel</option>
@@ -101,7 +130,7 @@ const EditExpense = () => {
           </select>
           {
             (title && amount && date && category && type) ?
-              <button>Submit</button> : <button disabled>Submit</button>
+              <button className='w-full md:w-auto text-sm md:text-base'>Submit</button> : <button className='w-full md:w-auto text-sm md:text-base' disabled>Submit</button>
           }
         </div>
       </form>

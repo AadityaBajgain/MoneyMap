@@ -8,7 +8,7 @@ import edit from "../assets/edit.png"
 
 const Graph = ({ expense, total, onDelete }) => {
     const doughnutData = (expense) => ({
-        labels: [`${expense.category === 'Expense' ? 'Expense' : 'Credit'}`, 'Remaining'],
+        labels: [`${expense.category === 'Expense' ? 'Expense' : 'Income'}`, 'Remaining'],
         datasets: [
             {
                 data: [expense.amount, total - expense.amount],
@@ -60,7 +60,7 @@ const Graph = ({ expense, total, onDelete }) => {
         alert('Expense not deleted');
     }
     return (
-        <div className='border-2 border-slate-400 rounded-md p-4 m-2 w-[290px]'>
+        <div className='w-[50vw] border-2 border-slate-400 rounded-md p-4 m-2 md:w-[fit] lg:w-[280px]'>
             <div className='flex justify-between'> 
                 <div>
                     <h3 className='text-2xl font-bold'>{expense.title}</h3>
@@ -75,7 +75,7 @@ const Graph = ({ expense, total, onDelete }) => {
                 </div>
             </div>
             <div className='flex justify-around'>
-                <div className='w-[100px] h-[100px]'>
+                <div className='w-[150px] h-[150px] md:w-[100px]h-[100px]'>
                     <Doughnut data={doughnutData(expense)} options={options} />
                 </div>
             </div>

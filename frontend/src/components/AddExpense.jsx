@@ -17,7 +17,6 @@ const AddExpense = ({ onAdd }) => {
       return;
     }
   
-    // Convert the date from dd-mm-yyyy to yyyy-mm-dd for validation
     const [day, month, year] = date.split('-').map(Number);
     const formattedDate = new Date(year, month - 1, day); // Months are 0-based in JS Date
     
@@ -58,13 +57,13 @@ const AddExpense = ({ onAdd }) => {
 
   return (
     <form
-      className='w-[30vw] border-2 border-slate-400 rounded-md p-4 text-center mt-[8rem]'
+      className='w-[30vw] h-fit border-2 border-slate-400 rounded-md p-4 text-center mt-[8rem]'
       onSubmit={handleFormSubmit}
     >
-      <h2 className='text-xl text-blue-300'>Add new Expense</h2>
+      <h2 className='text-blue-300 text-md md:text-xl '>Add new Expense</h2>
       <div className='flex flex-col'>
         {error && <p className='text-red-500'>{error}</p>}
-        <label>Title</label>
+        <label className='text-sm md:text-md'>Title</label>
         <input
           type="text"
           onChange={(e) => setTitle(e.target.value)}
@@ -80,7 +79,7 @@ const AddExpense = ({ onAdd }) => {
         <select value={category} onChange={(e) => setCategory(e.target.value)}>
           <option value="All">All</option>
           <option value='Expense'>Expense</option>
-          <option value='Credit'>Credit</option>
+          <option value='Income'>Income</option>
         </select>
         <label>Date *(dd-mm-yyyy)</label>
         <input

@@ -9,22 +9,21 @@ const TableSummary = ({ expenses }) => {
     const amounts = expenses?.map((expense) => expense.amount) || [];
     const total = amounts.reduce((acc, item) => acc + item, 0).toFixed(2);
 
-
     const expense = expenses
         ?.filter((expense) => expense.category === 'Expense')
         .map((expense) => expense.amount) || [];
     const expenseAmount = expense.reduce((acc, item) => acc + item, 0).toFixed(2);
 
-    const credit = expenses
-        ?.filter((expense) => expense.category === 'Credit')
+    const Income = expenses
+        ?.filter((expense) => expense.category === 'Income')
         .map((expense) => expense.amount) || [];
-    const creditAmount = credit.reduce((acc, item) => acc + item, 0).toFixed(2);
+    const IncomeAmount = Income.reduce((acc, item) => acc + item, 0).toFixed(2);
     const data = {
-        labels: ['Credit', 'Expense'],
+        labels: ['Income', 'Expense'],
         datasets: [
             {
                 label: 'Amount',
-                data: [creditAmount, expenseAmount],
+                data: [IncomeAmount, expenseAmount],
                 backgroundColor: [
                     'rgba(75,192,192,0.4)',
                     'rgba(255, 99, 132, 0.2)',
@@ -52,19 +51,19 @@ const TableSummary = ({ expenses }) => {
     };
 
     return (
-        <div className='flex min-w-fit border-2 border-slate-400 rounded-md '>
-            <div className=' flex flex-col p-4'>
-                <h1 className='text-4xl font-bold'>Transaction Summary</h1>
+        <div className='flex flex-row flex-wrap justify-center items-center border-2 border-slate-400 rounded-md p-4'>
+            <div className='flex flex-col p-4'>
+                <h1 className='text-xl md:text-4xl font-bold'>Transaction Summary</h1>
                 <div className='text-center'>
-                    <p className='text-xl'>Total: <span className='text-blue-400'>${total}</span></p>
-                    <h2 className='text-2xl underline'>Categories wise Expense:</h2>
-                    <div className='flex flex-col space-y-2 text-lg items-center mr-5'>
-                        <p className='flex'><img className='w-[1.5rem] h-[1.5rem]' src={greenArrow} />Credit Amount:<span className='text-green-600 ml-2'> ${creditAmount}</span></p>
+                    <p className='text-base md:text-xl'>Total: <span className='text-blue-400'>${total}</span></p>
+                    <h2 className='text-lg md:text-2xl underline'>Categories wise Expense:</h2>
+                    <div className='flex flex-col space-y-2 text-sm md:text-lg items-center mr-5'>
+                        <p className='flex'><img className='w-[1.5rem] h-[1.5rem]' src={greenArrow} />Income Amount:<span className='text-green-600 ml-2'> ${IncomeAmount}</span></p>
                         <p className='flex'><img className='w-[2rem] h-fit' src={redArrow} /> Expense Amount:<span className='text-red-600 ml-2'> ${expenseAmount}</span></p>
                     </div>
                 </div>
             </div>
-            <div className='w-[200px] h-[200px] p-2'>
+            <div className='w-[150px] h-[150px] md:w-[200px] md:h-[200px] p-2'>
                 <Pie data={data} options={options} />
             </div>
         </div>
