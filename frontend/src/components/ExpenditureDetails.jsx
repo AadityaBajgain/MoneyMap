@@ -46,7 +46,7 @@ const ExpenditureDetails = ({ expense, onDelete,index }) => {
                     <img src={deletee} alt="Delete" />
                 </span>
                 <span className='w-[1.5rem]'>
-                    <Link to='/edit'>
+                    <Link to={`/edit/${expense._id}`}>
                         <img src={edit} alt="Edit" />
                     </Link>
                 </span>

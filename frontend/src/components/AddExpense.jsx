@@ -52,6 +52,7 @@ const AddExpense = ({ onAdd }) => {
     setDate("");
     setCategory("");
     setType("");
+    onAdd();
   };
   
 

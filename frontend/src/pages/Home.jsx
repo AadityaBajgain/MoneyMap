@@ -51,31 +51,29 @@ const Home = () => {
   });
 
   const filteredExpensesByFrequency = filteredExpenses?.filter((expense) => {
-    if (!expense.date) return false; // Skip if the date is missing
-  
-    // Custom parsing for 'MM,DD,YYYY' format
+    if (!expense.date) return false; 
+   
     const parseDate = (dateStr) => {
-      const [day, month, year] = dateStr.split('-').map(Number); // Split and convert to numbers
-      return new Date(year, month - 1, day); // Months are 0-based in JS Date
+      const [day, month, year] = dateStr.split('-').map(Number); 
+      return new Date(year, month - 1, day);
     };
   
-    const today = new Date(); // Current date
+    const today = new Date(); 
     const expenseDate = parseDate(expense.date);
   
-    if (isNaN(expenseDate)) return false; // Skip invalid dates
-  
-    // Calculate the difference in days
+    if (isNaN(expenseDate)) return false; 
+ 
     const diffTime = today - expenseDate;
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
   
     if (selectedFrequency === '1') {
-      return diffDays === 0; // Include only today's expenses
+      return diffDays === 0; 
     } else if (selectedFrequency === '7') {
-      return diffDays >= 0 && diffDays <= 7; // Include expenses from the past week
+      return diffDays >= 0 && diffDays <= 7; 
     } else if (selectedFrequency === '30') {
-      return diffDays >= 0 && diffDays <= 30; // Include expenses from the past month
+      return diffDays >= 0 && diffDays <= 30;
     } else {
-      return true; // Include all expenses by default
+      return true;
     }
   });
   
