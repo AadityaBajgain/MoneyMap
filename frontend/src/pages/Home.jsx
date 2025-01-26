@@ -84,7 +84,7 @@ const Home = () => {
   return (
     <div>
       <div className='flex justify-center items-center'>
-        <TableSummary expenses={expenses} />
+        <TableSummary expenses={filteredExpensesByFrequency} />
       </div>
       <div className='m-5 flex justify-around items-end'>
         <div className='w-fit flex space-x-2 border-white border-2 p-1 rounded-md'>
@@ -108,7 +108,7 @@ const Home = () => {
           >
             <option value="All">All</option>
             <option value="Expense">Expense</option>
-            <option value="Credit">Income</option>
+            <option value="Income">Income</option>
           </select>
         </div>
         <div className='flex flex-col text-sm '>
