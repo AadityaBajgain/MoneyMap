@@ -74,6 +74,8 @@ const Home = () => {
       return diffDays >= 0 && diffDays <= 7; 
     } else if (selectedFrequency === '30') {
       return diffDays >= 0 && diffDays <= 30;
+    } else if (selectedFrequency === '365') {
+      return diffDays >= 0 && diffDays <= 365;
     } else {
       return true;
     }
@@ -115,6 +117,7 @@ const Home = () => {
             <option value="1">Today</option>
             <option value="7">Week</option>
             <option value="30">Month</option>
+            <option value="365">Year</option>
           </select>
         </div>
       </div>

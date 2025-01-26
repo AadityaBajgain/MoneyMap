@@ -9,21 +9,21 @@ const {
     editExpense
 } = require('../controllers/expenseController');
 
-
 // getting all expense
-router.get('/',allExpense);
+router.get('/', allExpense);
 
 // getting single expense
-router.get('/:id',singleExpense);
+router.get('/:id', singleExpense);
 
 // deleting expense
-router.delete('/:id',deleteExpense);
+router.delete('/:id', deleteExpense);
 
 // adding expense
-router.post('/',createExpense);
+router.post('/', createExpense);
 
 // editing expense
-router.patch('/:id',editExpense)
+router.patch('/:id', editExpense);
+
 module.exports = router;
 
 
