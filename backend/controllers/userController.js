@@ -1,17 +1,21 @@
 const User = require('../model/userModel');
 const jwt = require('jsonwebtoken');
 
+//create Secret key
 
 const createSecret = (_id)=>{
-    return jwt.sign({_id}),process.env.SECRET,{expiresIn:'30d'};
+    return jwt.sign({_id},process.env.SECRET,{EXPIRESiN:'7d'});
 }
-// Signup route
 
-const signupUser = async(req,res)=>{
-    const {email,password}=req.body;
+// signup controller
+
+const signupUser = async (req,res){
+    const {email,password} = req.body;
+
     try{
         const user = await User.signup(email,password);
         const token = createSecret(user._id);
+
         res.status(200).json({email,token});
     }catch(error){
         console.log(error);
@@ -19,12 +23,15 @@ const signupUser = async(req,res)=>{
     }
 }
 
-// Login route
-const loginUser = async(email,password)=>{
+// login Controller
+
+const loginUser = async (req,res)=>{
     const {email,password} = req.body;
+
     try{
         const user = await User.login(email,password);
         const token = createSecret(user._id);
+
         res.status(200).json({email,token});
     }catch(error){
         console.log(error);
@@ -32,7 +39,4 @@ const loginUser = async(email,password)=>{
     }
 }
 
-module.exports = {
-    signupUser,
-    loginUser
-}
+module.exports = {loginUser,signupUser};
