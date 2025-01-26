@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import EditExpense from './pages/EditExpense';
 import Footer from './components/Footer';
+import Login from './pages/Login';
 const App = () => {
   
   return (
@@ -12,6 +13,7 @@ const App = () => {
       <div className='flex-grow'>
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='/login'element={<Login />} />
           <Route path='/edit/:id' element={<EditExpense />} />
         </Routes>
       </div>
