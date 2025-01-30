@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import EditExpense from './pages/EditExpense';
 import Footer from './components/Footer';
 import Login from './pages/Login';
+import Signup from './pages/Signup';
 const App = () => {
   
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/login'element={<Login />} />
+          <Route path='/signup'element={<Signup />} />
           <Route path='/edit/:id' element={<EditExpense />} />
         </Routes>
       </div>

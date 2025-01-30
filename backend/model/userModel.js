@@ -16,8 +16,7 @@ const userSchema = new Schema({
 })
 
 // Static signup method
-
-userSchema.statics.signup  = async (email,password)=>{
+userSchema.statics.signup  = async function(email,password){
 
     // validation of email and password 
     if(!email || !password){
@@ -42,13 +41,13 @@ userSchema.statics.signup  = async (email,password)=>{
     // hash the password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password,salt);
-    const newUser = await this.create({email,password:hashedPassword});
+    const user = await this.create({email,password:hashedPassword});
 
-    return newUser;
+    return user;
 }
 
 // Static login method
-userSchema.statics.login = async(email,password)=>{
+userSchema.statics.login = async function(email,password){
     if(!email || !password){
         throw Error("All fields are required");
     }
@@ -60,6 +59,10 @@ userSchema.statics.login = async(email,password)=>{
     }
 
     const isMatch = await bcrypt.compare(password,user.password);
+    if(!isMatch){
+        throw Error("Invalid password");
+    }
+    return user;
 }
 
 module.exports = mongoose.model('User',userSchema);

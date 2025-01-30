@@ -18,12 +18,17 @@ const Navbar = () => {
                     </div>
                 </Link>
                 <div className="flex space-x-4">
+                
+                    <Link to='/login'>
                     <button className="bg-blue-500 hover:bg-blue-600 text-white rounded focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 w-[3rem] text-[0.8rem] md:px-3 md:w-[4rem]">   
                         Login
                     </button>
+                    </Link>
+                    <Link to='/signup'>
                     <button className="bg-gray-100 hover:bg-gray-200 text-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 w-[3rem] text-[0.8rem] md:px-3 md:w-[4rem]">
                         Signup
                     </button>
+                    </Link>
                 </div>
 
             </nav>
