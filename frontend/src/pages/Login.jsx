@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useLogin } from '../hooks/UseLogin'; // Ensure this import is correct
+import { useLogin } from '../hooks/UseLogin';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -13,7 +13,7 @@ const Login = () => {
     }
 
     return (
-        <div className='w-[90vw] md:w-[60vw] lg:w-[40vw] h-fit m-auto rounded-md shadow-md p-4 mt-8'>
+        <div className='w-[90vw] md:w-[60vw] lg:w-[40vw] h-fit m-auto rounded-md shadow-md p-4 mt-8 flex justify-center'>
             <form
                 className='flex flex-col px-4 rounded-md shadow-md shadow-blue-50'
                 onSubmit={handleSubmit}>

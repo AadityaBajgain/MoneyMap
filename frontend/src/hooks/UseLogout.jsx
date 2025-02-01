@@ -1,5 +1,5 @@
 import {useAuthContext} from './UseAuthContext';
-export const UseLogout = () => {
+export const useLogout = () => {
     const { dispatch } = useAuthContext();
     const logout = async()=>{
         localStorage.removeItem('user');

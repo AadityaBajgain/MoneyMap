@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-
+import {useSignup} from '../hooks/UseSignup';
 const Signup = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
+    const {error,loading,signup} = useSignup();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        await signup(email,password);
     }
     return (
-        <div className='w-[90vw] md:w-[60vw] lg:w-[40vw] h-fit m-auto rounded-md shadow-md p-4 mt-8'>
+        <div className='w-[90vw] md:w-[60vw] lg:w-[40vw] h-fit m-auto rounded-md shadow-md p-4 mt-8 flex justify-center'>
             <form
                 className='flex flex-col px-4 rounded-md shadow-md shadow-blue-50'
                 onSubmit={handleSubmit}>
@@ -36,7 +37,8 @@ const Signup = () => {
                         required
                     />
                 </div>
-                <button type='submit' className='p-2 bg-blue-500 text-white rounded hover:bg-blue-600'>Login</button>
+                <button type='submit' className='p-2 bg-blue-500 text-white rounded hover:bg-blue-600' disabled={loading}>Sign Up</button>
+                {error && <p className='text-red-500 text-center'>{error}</p>}
             </form>
         </div>
     )

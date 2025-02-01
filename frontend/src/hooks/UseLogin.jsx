@@ -8,7 +8,7 @@ export const useLogin = () => {
         setLoading(true);
         setError(null);
 
-        const response = await fetch('http://localhost:3001/api/users/signup',{
+        const response = await fetch('http://localhost:3001/api/user/login',{
             method:'POST',
             headers:{
                 'Content-Type':'application/json'
