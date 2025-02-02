@@ -4,8 +4,9 @@ const Expense = require('../model/expenseModel');
 // get all expense
 
 const allExpense = async (req,res)=>{
+    const user_id = req.user._id
     try{
-        const expenses = await Expense.find({}).sort({createdAt:-1})
+        const expenses = await Expense.find({user_id}).sort({createdAt:-1})
         res.status(200).json(expenses)
     }catch(err){
         console.log(err.message)
@@ -42,11 +43,13 @@ const deleteExpense = async(req,res)=>{
 // add expense
 
 const createExpense = async (req, res) => {
+    const user_id = req.user._id;
     try {
         const { date, ...rest } = req.body;
         const expense = await Expense.create({
             ...rest,
             date: date.slice(0,10),
+            user_id,
         });
 
         res.status(201).json(expense);
