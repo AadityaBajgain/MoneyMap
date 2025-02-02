@@ -74,12 +74,11 @@ const EditExpense = () => {
 
   return (
     <div>
-      <h1 className='text-4xl text-center mt-5 mb-0'>Edit Expense</h1>
       <form
-        className='w-[90vw] md:w-[50vw] border-2 border-slate-400 rounded-md p-4 text-center mt-[2rem]'
+        className='w-[90vw] md:w-[50vw] h-fit border-2 border-slate-400 rounded-md p-4 text-center mt-[2rem]'
         onSubmit={handleFormSubmit}
       >
-        <h1 className='text-[4rem] text-blue-300'>Edit Expense</h1>
+        <h1 className='text-[2rem] md:text-[4rem] text-blue-300'>Edit Expense</h1>
         <div className='flex flex-col'>
           {error && <p className='text-red-500'>{error}</p>}
           <label className='text-sm md:text-base'>Title</label>

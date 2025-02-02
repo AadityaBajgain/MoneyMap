@@ -33,7 +33,7 @@ const ExpenditureDetails = ({ expense, onDelete, index }) => {
     }
     return (
 
-        <tr className='text-xs md:text-base text-center'>
+        <tr className='text-sm md:text-base text-center'>
             <td className='py-2'>{index}</td>
             <td className='py-2 hidden md:table-cell'>{expense.date}</td>
             <td className='py-2'>{expense.title}</td>
