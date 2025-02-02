@@ -8,6 +8,9 @@ const {
     deleteExpense,
     editExpense
 } = require('../controllers/expenseController');
+const requireAuth = require('../middleware/requireAuth');
+
+router.use(requireAuth);
 
 // getting all expense
 router.get('/', allExpense);

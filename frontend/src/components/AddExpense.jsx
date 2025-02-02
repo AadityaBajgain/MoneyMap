@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {useAuthContext} from "../hooks/useAuthContext";
 import "./AddExpense.css";
 
 const AddExpense = ({ onAdd }) => {
@@ -8,9 +9,13 @@ const AddExpense = ({ onAdd }) => {
   const [category, setCategory] = useState('All');
   const [type, setType] = useState('All');
   const [error, setError] = useState('');
+  const {user} = useAuthContext();
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-  
+    if (!user){
+      setError("Please login to add an expense.");
+      return;
+    }
     const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
     if (!dateRegex.test(date)) {
       setError("Date must be in the format dd-mm-yyyy.");
@@ -36,6 +41,7 @@ const AddExpense = ({ onAdd }) => {
       body: JSON.stringify({ title, amount, date, category, type }),
       headers: {
         'Content-Type': 'application/json',
+        "Authorization": `Bearer ${user.token}`
       },
     });
   

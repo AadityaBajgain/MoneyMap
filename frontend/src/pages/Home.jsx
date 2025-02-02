@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import {useAuthContext} from "../hooks/useAuthContext";
 // components
 import ExpenditureDetails from '../components/ExpenditureDetails';
 import Graph from '../components/Graph';
@@ -17,12 +17,19 @@ const Home = () => {
   const [selectedFrequency, setSelectedFrequency] = useState('30');
   const [dataChanged, setDataChanged] = useState(false);
   const [total, setTotal] = useState(0);
+  const {user} = useAuthContext();
   const handleOnClick = (item) => {
     setSelected(item);
   };
 
   const fetchData = async () => {
-    const response = await fetch('http://localhost:3001/api/expense');
+    const response = await fetch('http://localhost:3001/api/expense',
+      {
+        headers:{
+          'Authorization': `Bearer ${user.token}`
+        }
+      }
+    );
     const json = await response.json();
 
     if (response.ok) {
@@ -33,8 +40,10 @@ const Home = () => {
   };
 
   useEffect(() => {
-    fetchData();
-  }, [dataChanged]);
+    if (user){
+      fetchData();
+    }
+  }, [dataChanged,user]);
 
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);

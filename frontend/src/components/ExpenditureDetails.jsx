@@ -3,12 +3,19 @@ import { Link } from 'react-router-dom'
 //images
 import deletee from "../assets/delete.png"
 import edit from "../assets/edit.png"
-
+import {useAuthContext} from "../hooks/useAuthContext";
 const ExpenditureDetails = ({ expense, onDelete, index }) => {
+    const {user} = useAuthContext();
     const handleDeleteClick = async () => {
+        if (!user) {
+            return;
+        }
         try {
             const response = await fetch(`http://localhost:3001/api/expense/${expense._id}`, {
                 method: 'DELETE',
+                headers:{
+                    "Authorization": `Bearer ${user.token}`
+                }
             });
 
             if (response.ok) {
