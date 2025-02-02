@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@react-login-page/page8": "^1.0.4",
+    "@vercel/static-build": "^2.6.0",
     "axios": "^1.7.9",
     "chart.js": "^4.4.7",
     "dotenv": "^16.4.7",
