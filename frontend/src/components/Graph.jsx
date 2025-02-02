@@ -63,7 +63,7 @@ const Graph = ({ expense, total, onDelete }) => {
         <div className='w-[50vw] border-2 border-slate-400 rounded-md p-4 m-2 md:w-[fit] lg:w-[280px]'>
             <div className='flex justify-between'> 
                 <div>
-                    <h3 className='text-2xl font-bold'>{expense.title}</h3>
+                    <h3 className='text-2xl font-bold text-blue-400'>{expense.title}</h3>
                     <p><strong>Date:</strong> {expense.date}</p>
                     <p><strong>Amount : </strong> ${expense.amount}</p>
                 </div>

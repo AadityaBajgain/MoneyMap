@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {useAuthContext} from "../hooks/useAuthContext";
+import {useAuthContext} from "../hooks/UseAuthContext";
 // components
 import ExpenditureDetails from '../components/ExpenditureDetails';
 import Graph from '../components/Graph';
