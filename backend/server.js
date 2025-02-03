@@ -19,12 +19,12 @@ mongoose.connect(mongoose_url)
     })
 
 // middleware
-// app.use(cors({
-//     origin:'http://localhost:5173', // vite react origin
-//     methods:'GET,HEAD,PUT,PATCH,POST,DELETE',
-//     credentials:true  // allow cookies and authentication headers
-// }));
-app.use(cors());
+app.use(cors({
+    origin:['http://localhost:5173',"https://money-map-zeta.vercel.app/"], // vite and vercel
+    methods:'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials:true  // allow cookies and authentication headers
+}));
+// app.use(cors());
 
 app.use(express.json());
 
