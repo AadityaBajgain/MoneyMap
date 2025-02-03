@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {useAuthContext} from "../hooks/useAuthContext";
+import {useAuthContext} from "../hooks/UseAuthContext";
 import "./AddExpense.css";
 
 const AddExpense = ({ onAdd }) => {
