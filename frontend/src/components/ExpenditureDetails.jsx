@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 //images
 import deletee from "../assets/delete.png"
 import edit from "../assets/edit.png"
-import {useAuthContext} from "../hooks/useAuthContext";
+import {useAuthContext} from "../hooks/UseAuthContext";
 const ExpenditureDetails = ({ expense, onDelete, index }) => {
     const {user} = useAuthContext();
     const handleDeleteClick = async () => {
