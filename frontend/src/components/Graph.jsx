@@ -34,7 +34,7 @@ const Graph = ({ expense, total, onDelete }) => {
     };
     const handleDeleteClick = async () => {
         try {
-            const response = await fetch(`http://localhost:3001/api/expense/${expense._id}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/expense/${expense._id}`, {
                 method: 'DELETE',
             });
 

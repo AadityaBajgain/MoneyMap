@@ -23,7 +23,7 @@ const Home = () => {
   };
 
   const fetchData = async () => {
-    const response = await fetch('http://localhost:3001/api/expense',
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/expense`,
       {
         headers:{
           'Authorization': `Bearer ${user.token}`

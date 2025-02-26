@@ -36,7 +36,7 @@ const AddExpense = ({ onAdd }) => {
     }
   
     // Proceed with the API request
-    const response = await fetch('http://localhost:3001/api/expense', {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/expense`, {
       method: 'POST',
       body: JSON.stringify({ title, amount, date, category, type }),
       headers: {

@@ -14,7 +14,7 @@ const EditExpense = () => {
 
   useEffect(() => {
     const fetchExpense = async () => {
-      const response = await fetch(`http://localhost:3001/api/expense/${id}`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/expense/${id}`);
       if (response.ok) {
         const expense = await response.json();
         setTitle(expense.title);
@@ -51,7 +51,7 @@ const EditExpense = () => {
       return;
     }
 
-    const response = await fetch(`http://localhost:3001/api/expense/${id}`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/expense/${id}`, {
       method: 'PATCH',
       body: JSON.stringify({ title, amount, date, category, type }),
       headers: {
