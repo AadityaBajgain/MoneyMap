@@ -20,7 +20,7 @@ mongoose.connect(mongoose_url)
 
 // middleware
 app.use(cors({
-    origin:['http://localhost:5173',"https://money-map-zeta.vercel.app/"], // vite and vercel
+    origin:`${process.env.FrontendURL}`,
     methods:'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials:true  // allow cookies and authentication headers
 }));
