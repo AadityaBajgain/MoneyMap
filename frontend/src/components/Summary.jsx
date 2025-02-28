@@ -51,7 +51,7 @@ const TableSummary = ({ expenses = [] }) => {
     };
 
     return (
-        <div className='flex items-center md:gap-4 border-2 border-slate-400 rounded-md p-4 w-[90vw] max-w-3xl mx-auto'>
+        <div className={`flex items-center md:gap-4 border-2 border-slate-400 rounded-md p-4 w-[90vw] max-w-3xl mx-auto ${expenses.length === 0 ? 'justify-center' : ''}`}>
             <div className='flex flex-col items-center text-center p-2'>
                 <h1 className='text-xl md:text-3xl font-bold'>Transaction Summary</h1>
                 <p className='text-lg md:text-xl'>Total: <span className='text-blue-400'>${total}</span></p>

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState} from 'react';
 import { useAuthContext } from './UseAuthContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -23,7 +23,7 @@ export const useLogin = () => {
         const json = await response.json();
 
         if (!response.ok) {
-            setError(json.message);
+            setError(json.error);
             setLoading(false);
         }
         if (response.ok) {
