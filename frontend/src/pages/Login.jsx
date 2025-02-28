@@ -11,7 +11,7 @@ const Login = () => {
         e.preventDefault();
         await login(email, password);
     }
-    console.log(error);
+    // console.log(error);
     return (
         <div className='w-[80vw] md:w-[50vw] lg:w-[35vw] h-fit m-auto rounded-md shadow-md p-4 mt-8 flex justify-center'>
             <form
