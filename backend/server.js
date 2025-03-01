@@ -20,10 +20,12 @@ mongoose.connect(mongoose_url)
 
 // middleware
 app.use(cors({
-    origin:[`${process.env.FrontendURL}`,`${process.env.VercelURL}`], // vite and vercel
-    methods:'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials:true  // allow cookies and authentication headers
+    origin: [process.env.FrontendURL, process.env.VercelURL],
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
 // app.use(cors());
 
 app.use(express.json());
