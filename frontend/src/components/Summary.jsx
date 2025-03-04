@@ -7,7 +7,7 @@ import greenArrow from '../assets/greenArrow.png';
 
 const TableSummary = ({ expenses = [] }) => {
     // Calculate amounts only when expenses change
-    const { total, expenseAmount, incomeAmount, data } = useMemo(() => {
+    const { total, expenseAmount, incomeAmount, data, difference } = useMemo(() => {
         const amounts = expenses.map((expense) => expense.amount);
         const total = amounts.reduce((acc, item) => acc + item, 0).toFixed(2);
 
@@ -20,6 +20,8 @@ const TableSummary = ({ expenses = [] }) => {
             .filter((expense) => expense.category === 'Income')
             .map((expense) => expense.amount);
         const incomeAmount = income.reduce((acc, item) => acc + item, 0).toFixed(2);
+
+        const difference = (incomeAmount - expenseAmount).toFixed(2);
 
         const data = {
             labels: ['Income', 'Expense'],
@@ -34,7 +36,7 @@ const TableSummary = ({ expenses = [] }) => {
             ],
         };
 
-        return { total, expenseAmount, incomeAmount, data };
+        return { total, expenseAmount, incomeAmount, data, difference };
     }, [expenses]);
 
     const options = {
@@ -54,7 +56,10 @@ const TableSummary = ({ expenses = [] }) => {
         <div className={`flex items-center md:gap-4 border-2 border-slate-400 rounded-md p-4 w-[90vw] max-w-3xl mx-auto ${expenses.length === 0 ? 'justify-center' : ''}`}>
             <div className='flex flex-col items-center text-center p-2'>
                 <h1 className='text-xl md:text-3xl font-bold'>Transaction Summary</h1>
-                <p className='text-lg md:text-xl'>Total: <span className='text-blue-400'>${total}</span></p>
+                {
+                    difference >=0? <p className='text-lg md:text-xl'>Savings: <span className='text-green-600'>${difference}</span></p>:
+                    <p className='text-lg md:text-xl'>Loss: <span className='text-red-600'>${Math.abs(difference)}</span></p>
+                }
                 <h2 className='text-md md:text-xl underline mt-2'>Category-wise Summary:</h2>
                 <div className='flex flex-col space-y-2 text-sm md:text-lg items-center'>
                     <p className='flex items-center'>

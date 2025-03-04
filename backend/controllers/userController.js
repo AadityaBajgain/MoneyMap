@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 
 //create Secret key
 const createSecret = (_id) => {
-    return jwt.sign({ _id }, process.env.SECRET, { expiresIn: '7d' });
+    return jwt.sign({ _id }, process.env.SECRET, { expiresIn: '3d' });
 }
 
 // signup controller
