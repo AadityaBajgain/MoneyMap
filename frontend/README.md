@@ -1,8 +1,63 @@
-# React + Vite
+# MoneyMap
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is an Expense Tracker application built with React and Vite. It allows users to track their expenses and manage their budget efficiently.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Add, edit, and delete expenses
+- Categorize expenses
+- View expense summary
+- Responsive design
+
+## Getting Started
+
+### Prerequisites
+
+Make sure you have the following installed:
+
+- [Node.js](https://nodejs.org/) (version 14 or higher)
+- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
+
+### Installation
+
+1. Clone the repository:
+
+   ```sh
+   git clone https://github.com/your-username/expense-tracker.git
+   cd expense-tracker/frontend
+   ```
+
+2. Install dependencies:
+
+   ```sh
+   npm install
+   # or
+   yarn install
+   ```
+
+### Available Scripts
+
+In the project directory, you can run:
+
+- `npm run dev` or `yarn dev`: Runs the app in development mode with hot module replacement.
+- `npm run build` or `yarn build`: Builds the app for production.
+- `npm run preview` or `yarn preview`: Serves the production build locally.
+- `npm run lint` or `yarn lint`: Runs ESLint to check for linting errors.
+
+### Project Structure
+
+```
+/frontend
+├── public          # Static assets
+├── src
+│   ├── assets      # Images, icons, etc.
+│   ├── components  # Reusable components
+│   ├── pages       # Page components
+│   ├── styles      # Global styles
+│   ├── utils       # Utility functions
+│   ├── App.jsx     # Main app component
+│   └── main.jsx    # Entry point
+├── index.html      # HTML template
+├── package.json    # Project metadata and scripts
+└── vite.config.js  # Vite configuration
+```
