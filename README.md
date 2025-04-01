@@ -55,15 +55,17 @@ To install and run MoneyMap locally, follow these steps:
 - Set financial goals and track your progress.
 
 ## Screenshots
+**LogIn Page** ![Screenshot 2025-03-04 115008](https://github.com/user-attachments/assets/de12d9bc-fc5f-44e0-959b-3d49abecd257)
+**Dashboard with Table view**![Screenshot 2025-03-04 121027](https://github.com/user-attachments/assets/458fc976-ecc4-45e6-8db9-813e9c5111d5)
 
-![Dashboard](path/to/dashboard_screenshot.png)
-*Description of the dashboard screenshot.*
 
-![Income and Expenses](path/to/income_expenses_screenshot.png)
-*Description of the income and expenses screenshot.*
 
-![Financial Goals](path/to/financial_goals_screenshot.png)
-*Description of the financial goals screenshot.*
+**Dashboard with Graph view**![Screenshot 2025-03-04 121041](https://github.com/user-attachments/assets/01dcaf7f-2a4e-47d9-9269-ddd79329a995)
+
+
+**Add Transaction**![Screenshot 2025-03-04 121306](https://github.com/user-attachments/assets/73c82674-6c2c-4c91-8510-091a370c85de)
+
+
 
 ## Tech Stack
 
