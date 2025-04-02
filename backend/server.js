@@ -21,7 +21,7 @@ mongoose.connect(mongoose_url)
 // middleware
 
 app.use(cors({
-    origin: [process.env.FrontendURL, process.env.VercelURL],
+    origin: process.env.FrontendURL,
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization']
