@@ -21,7 +21,7 @@ mongoose.connect(mongoose_url)
 // middleware
 
 app.use(cors({
-    "access-control-allow-origin": process.env.FrontendURL,
+    "Access-Control-Allow-Origin": process.env.FrontendURL,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   }));

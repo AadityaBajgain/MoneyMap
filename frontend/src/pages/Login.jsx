@@ -9,14 +9,14 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("Hello")
         await login(email, password);
     }
-    // console.log(error);
     return (
         <div className='w-[80vw] md:w-[50vw] lg:w-[35vw] h-fit m-auto rounded-md shadow-md p-4 mt-8 flex justify-center'>
             <form
                 className='flex flex-col px-4 rounded-md shadow-md shadow-blue-50'
-                onSubmit={handleSubmit}>
+                onSubmit={(e)=>handleSubmit(e)}>
                 <h1 className='text-2xl md:text-3xl lg:text-4xl text-center underline mb-2'>Login to MoneyMap</h1>
                 <div className='flex flex-col'>
                     <label htmlFor='email' className='text-lg md:text-xl lg:text-2xl mb-1'>Email</label>

@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import { useState} from 'react';
 import { useAuthContext } from './UseAuthContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,9 +21,9 @@ export const useLogin = () => {
         });
 
         const json = await response.json();
-
+        console.log(json.error);
         if (!response.ok) {
-            setError(json.error);
+            setError(json);
             setLoading(false);
         }
         if (response.ok) {
@@ -31,7 +31,6 @@ export const useLogin = () => {
 
             dispatch({ type: 'LOGIN', payload: json });
             setLoading(false);
-            // Redirect to homepage
             navigate('/home');
         }
     }

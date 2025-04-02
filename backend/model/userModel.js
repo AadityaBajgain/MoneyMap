@@ -55,7 +55,7 @@ userSchema.statics.login = async function(email, password) {
         throw Error("All fields are required");
     }
 
-    console.log(`Login attempt for email: ${email}`); // Debugging statement
+    console.log(`Login attempt for email: ${email}`);
 
     const user = await this.findOne({ email });
 
