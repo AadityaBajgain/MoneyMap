@@ -8,7 +8,7 @@ export const useLogin = () => {
     const { dispatch } = useAuthContext();
     const navigate = useNavigate();
 
-    const login = async (email, password) => {
+    const login = async (email , password) => {
         setLoading(true);
         setError(null);
 
