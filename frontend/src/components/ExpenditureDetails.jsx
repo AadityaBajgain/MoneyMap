@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 //images
 import deletee from "../assets/delete.png"
 import edit from "../assets/edit.png"
 import {useAuthContext} from "../hooks/UseAuthContext";
+import { buildApiUrl } from '../hooks/api';
 const ExpenditureDetails = ({ expense, onDelete, index }) => {
     const {user} = useAuthContext();
     const handleDeleteClick = async () => {
@@ -11,7 +12,7 @@ const ExpenditureDetails = ({ expense, onDelete, index }) => {
             return;
         }
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/expense/${expense._id}`, {
+            const response = await fetch(buildApiUrl(`/api/expense/${expense._id}`), {
                 method: 'DELETE',
                 headers:{
                     "Authorization": `Bearer ${user.token}`

@@ -28,9 +28,10 @@ const expenseSchema = new Schema({
         required: true,
     },
     user_id:{
-        type:String,
+        type: Schema.Types.ObjectId,
+        ref: 'User',
         required:true
     }
-});
+}, { timestamps: true });
 
 module.exports= mongoose.model('Expense', expenseSchema);

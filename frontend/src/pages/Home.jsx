@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {useAuthContext} from "../hooks/UseAuthContext";
+import { buildApiUrl } from '../hooks/api';
 // components
 import ExpenditureDetails from '../components/ExpenditureDetails';
 import Graph from '../components/Graph';
@@ -17,25 +18,36 @@ const Home = () => {
   const [selectedFrequency, setSelectedFrequency] = useState('30');
   const [dataChanged, setDataChanged] = useState(false);
   const [total, setTotal] = useState(0);
+  const [fetchError, setFetchError] = useState('');
   const {user} = useAuthContext();
   const handleOnClick = (item) => {
     setSelected(item);
   };
 
   const fetchData = async () => {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/expense`,
-      {
-        headers:{
-          'Authorization': `Bearer ${user.token}`
+    try {
+      const response = await fetch(buildApiUrl('/api/expense'),
+        {
+          headers:{
+            'Authorization': `Bearer ${user.token}`
+          }
         }
+      );
+      const json = await response.json().catch(() => ({}));
+  
+      if (!response.ok) {
+        setFetchError(json.error || 'Failed to load expenses.');
+        setExpenses([]);
+        setTotal(0);
+        return;
       }
-    );
-    const json = await response.json();
-
-    if (response.ok) {
+  
+      setFetchError('');
       setExpenses(json);
       const totalAmount = json.reduce((acc, expense) => acc + expense.amount, 0);
       setTotal(totalAmount);
+    } catch (error) {
+      setFetchError('Unable to fetch expenses. Please try again.');
     }
   };
 
@@ -92,6 +104,11 @@ const Home = () => {
 
   return (
     <div>
+      {fetchError && (
+        <div className='text-center text-red-500 mt-4'>
+          {fetchError}
+        </div>
+      )}
       <div className='flex justify-center items-center'>
         <TableSummary expenses={filteredExpensesByFrequency} />
       </div>

@@ -1,12 +1,16 @@
 import React from 'react';
-import { Doughnut, Bar } from 'react-chartjs-2';
-import { Chart as ChartJS } from 'chart.js/auto';
+import { Doughnut } from 'react-chartjs-2';
+import 'chart.js/auto';
 import { Link } from 'react-router-dom';
 //images
 import deletee from "../assets/delete.png"
 import edit from "../assets/edit.png"
+import { buildApiUrl } from '../hooks/api';
+import { useAuthContext } from '../hooks/UseAuthContext';
 
 const Graph = ({ expense, total, onDelete }) => {
+    const { user } = useAuthContext();
+
     const doughnutData = (expense) => ({
         labels: [`${expense.category === 'Expense' ? 'Expense' : 'Income'}`, 'Remaining'],
         datasets: [
@@ -33,13 +37,19 @@ const Graph = ({ expense, total, onDelete }) => {
         },
     };
     const handleDeleteClick = async () => {
+        if (!user) {
+            return;
+        }
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/expense/${expense._id}`, {
+            const response = await fetch(buildApiUrl(`/api/expense/${expense._id}`), {
                 method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${user.token}`,
+                },
             });
 
             if (response.ok) {
-                onDelete();
+                onDelete?.();
             } else {
                 console.error('Failed to delete expense');
             }
@@ -69,7 +79,7 @@ const Graph = ({ expense, total, onDelete }) => {
                 </div>
                 <div className='flex space-x-2'>
                     <img src={deletee} alt="Delete" onClick={(deleteForSure)} className='w-[1.5rem] h-fit cursor-pointer' />
-                    <Link to='/edit'>
+                    <Link to={`/edit/${expense._id}`}>
                         <img src={edit} alt="Edit" className='w-[1.5rem]' />
                     </Link>
                 </div>

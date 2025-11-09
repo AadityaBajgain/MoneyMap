@@ -1,76 +1,123 @@
-import React, { useState, useEffect } from 'react';
-import "./EditExpense.css";
+import React, { useEffect, useState } from 'react';
+import './EditExpense.css';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useAuthContext } from '../hooks/UseAuthContext';
+import { buildApiUrl } from '../hooks/api';
+import { CATEGORY_OPTIONS, TYPE_OPTIONS } from '../constants/expenseOptions';
 
 const EditExpense = () => {
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
   const [amount, setAmount] = useState('');
-  const [category, setCategory] = useState('All');
-  const [type, setType] = useState('All');
+  const [category, setCategory] = useState(CATEGORY_OPTIONS[0]);
+  const [type, setType] = useState(TYPE_OPTIONS[0]);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuthContext();
 
   useEffect(() => {
     const fetchExpense = async () => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/expense/${id}`);
-      if (response.ok) {
-        const expense = await response.json();
-        setTitle(expense.title);
-        setDate(expense.date);
-        setAmount(expense.amount);
-        setCategory(expense.category);
-        setType(expense.type);
-      } else {
-        setError("Failed to fetch expense details.");
+      if (!user) {
+        return;
+      }
+      setLoading(true);
+      setError('');
+      try {
+        const response = await fetch(buildApiUrl(`/api/expense/${id}`), {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+          setError(data.error || 'Failed to fetch expense details.');
+          return;
+        }
+
+        setTitle(data.title || '');
+        setDate(data.date || '');
+        setAmount(data.amount ?? '');
+        setCategory(CATEGORY_OPTIONS.includes(data.category) ? data.category : CATEGORY_OPTIONS[0]);
+        setType(TYPE_OPTIONS.includes(data.type) ? data.type : TYPE_OPTIONS[0]);
+      } catch (err) {
+        setError('Unable to fetch expense details. Please try again.');
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchExpense();
-  }, [id]);
+  }, [id, user]);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    if (!user) {
+      setError('You must be logged in to edit expenses.');
+      return;
+    }
+
+    const parsedAmount = Number(amount);
+    if (Number.isNaN(parsedAmount) || parsedAmount <= 0) {
+      setError('Amount must be a positive number.');
+      return;
+    }
+
     const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
     if (!dateRegex.test(date)) {
-      setError("Date must be in the format dd-mm-yyyy.");
+      setError('Date must be in the format dd-mm-yyyy.');
       return;
     }
 
     const [day, month, year] = date.split('-').map(Number);
     const formattedDate = new Date(year, month - 1, day);
 
-    if (isNaN(formattedDate.getTime())) {
-      setError("Invalid date provided.");
+    if (Number.isNaN(formattedDate.getTime())) {
+      setError('Invalid date provided.');
       return;
     }
 
     if (formattedDate > new Date()) {
-      setError("Date cannot be in the future.");
+      setError('Date cannot be in the future.');
       return;
     }
 
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/expense/${id}`, {
-      method: 'PATCH',
-      body: JSON.stringify({ title, amount, date, category, type }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    setSaving(true);
+    try {
+      const response = await fetch(buildApiUrl(`/api/expense/${id}`), {
+        method: 'PATCH',
+        body: JSON.stringify({ title, amount: parsedAmount, date, category, type }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
 
-    if (!response.ok) {
-      setError("Failed to save expense. Please try again.");
-      return;
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        setError(data.error || 'Failed to save expense. Please try again.');
+        return;
+      }
+      setError('');
+      navigate('/');
+    } catch (err) {
+      setError('Unable to reach the server. Please try again.');
+    } finally {
+      setSaving(false);
     }
-    setError("");
-    setTitle("");
-    setAmount("");
-    setDate("");
-    setCategory("");
-    setType("");
-    navigate('/');
   };
+
+  if (loading) {
+    return (
+      <div className='w-full text-center mt-10'>
+        <p>Loading expense...</p>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -101,9 +148,9 @@ const EditExpense = () => {
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
-            <option value="All">All</option>
-            <option value='Expense'>Expense</option>
-            <option value='Income'>Income</option>
+            {CATEGORY_OPTIONS.map((option) => (
+              <option key={option} value={option}>{option}</option>
+            ))}
           </select>
           <label className='text-sm md:text-base'>Date *(dd-mm-yyyy)</label>
           <input
@@ -118,19 +165,17 @@ const EditExpense = () => {
             value={type}
             onChange={(e) => setType(e.target.value)}
           >
-            <option value="">All</option>
-            <option>Food</option>
-            <option>Travel</option>
-            <option>Utilities</option>
-            <option>Entertainment</option>
-            <option>Rent</option>
-            <option>Education</option>
-            <option>Other</option>
+            {TYPE_OPTIONS.map((option) => (
+              <option key={option} value={option}>{option}</option>
+            ))}
           </select>
-          {
-            (title && amount && date && category && type) ?
-              <button className='w-full md:w-auto text-sm md:text-base'>Submit</button> : <button className='w-full md:w-auto text-sm md:text-base' disabled>Submit</button>
-          }
+          {(title && amount && date && category && type) ? (
+            <button className='w-full md:w-auto text-sm md:text-base' disabled={saving}>
+              {saving ? 'Saving...' : 'Submit'}
+            </button>
+          ) : (
+            <button className='w-full md:w-auto text-sm md:text-base' disabled>Submit</button>
+          )}
         </div>
       </form>
     </div>

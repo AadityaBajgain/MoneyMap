@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import {useAuthContext} from "../hooks/UseAuthContext";
-import "./AddExpense.css";
+import { useAuthContext } from '../hooks/UseAuthContext';
+import { buildApiUrl } from '../hooks/api';
+import { CATEGORY_OPTIONS, TYPE_OPTIONS } from '../constants/expenseOptions';
+import './AddExpense.css';
 
 const AddExpense = ({ onAdd }) => {
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
   const [amount, setAmount] = useState('');
-  const [category, setCategory] = useState('All');
-  const [type, setType] = useState('All');
+  const [category, setCategory] = useState(CATEGORY_OPTIONS[0]);
+  const [type, setType] = useState(TYPE_OPTIONS[0]);
   const [error, setError] = useState('');
   const {user} = useAuthContext();
   const handleFormSubmit = async (e) => {
@@ -16,6 +18,12 @@ const AddExpense = ({ onAdd }) => {
       setError("Please login to add an expense.");
       return;
     }
+    const parsedAmount = Number(amount);
+    if (Number.isNaN(parsedAmount) || parsedAmount <= 0) {
+      setError('Amount must be a positive number.');
+      return;
+    }
+
     const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
     if (!dateRegex.test(date)) {
       setError("Date must be in the format dd-mm-yyyy.");
@@ -36,28 +44,33 @@ const AddExpense = ({ onAdd }) => {
     }
   
     // Proceed with the API request
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/expense`, {
-      method: 'POST',
-      body: JSON.stringify({ title, amount, date, category, type }),
-      headers: {
-        'Content-Type': 'application/json',
-        "Authorization": `Bearer ${user.token}`
-      },
-    });
-  
-    if (!response.ok) {
-      setError("Failed to save expense. Please try again.");
-      return;
+    try {
+      const response = await fetch(buildApiUrl('/api/expense'), {
+        method: 'POST',
+        body: JSON.stringify({ title, amount: parsedAmount, date, category, type }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+    
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        setError(data.error || 'Failed to save expense. Please try again.');
+        return;
+      }
+    
+      // Reset form and errors
+      setError("");
+      setTitle("");
+      setAmount("");
+      setDate("");
+      setCategory(CATEGORY_OPTIONS[0]);
+      setType(TYPE_OPTIONS[0]);
+      onAdd?.();
+    } catch (err) {
+      setError('Unable to reach the server. Please try again.');
     }
-  
-    // Reset form and errors
-    setError("");
-    setTitle("");
-    setAmount("");
-    setDate("");
-    setCategory("");
-    setType("");
-    onAdd();
   };
   
 
@@ -83,9 +96,9 @@ const AddExpense = ({ onAdd }) => {
         />
         <label>Category</label>
         <select value={category} onChange={(e) => setCategory(e.target.value)}>
-          <option value="All">All</option>
-          <option value='Expense'>Expense</option>
-          <option value='Income'>Income</option>
+          {CATEGORY_OPTIONS.map((option) => (
+            <option key={option} value={option}>{option}</option>
+          ))}
         </select>
         <label>Date *(dd-mm-yyyy)</label>
         <input
@@ -95,14 +108,9 @@ const AddExpense = ({ onAdd }) => {
         />
         <label>Type</label>
         <select value={type} onChange={(e) => setType(e.target.value)}>
-          <option value="">All</option>
-          <option>Food</option>
-          <option>Travel</option>
-          <option>Utilities</option>
-          <option>Entertainment</option>
-          <option>Rent</option>
-          <option>Education</option>
-          <option>Other</option>
+          {TYPE_OPTIONS.map((option) => (
+            <option key={option} value={option}>{option}</option>
+          ))}
         </select>
         {
           (title && amount && date && category && type) ?

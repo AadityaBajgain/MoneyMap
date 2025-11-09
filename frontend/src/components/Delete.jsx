@@ -1,6 +1,8 @@
+import { buildApiUrl } from '../hooks/api';
+
 const handleDeleteClick = async () => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/expense/${expenseId}`, {
+    const response = await fetch(buildApiUrl(`/api/expense/${expenseId}`), {
       method: 'DELETE',
     });
 

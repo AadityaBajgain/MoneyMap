@@ -48,6 +48,25 @@ To install and run MoneyMap locally, follow these steps:
     ```
 6. Open `http://localhost:3000` in your web browser to start using the application.
 
+### Environment variables
+
+Create `backend/.env` with the following entries:
+
+```
+FrontendURL=<URL that should be allowed by CORS, e.g. http://localhost:5173>
+MONGO_URL=<Full MongoDB connection string>
+MONGO_DB_NAME=<Database name that the MongoDB user can access>
+SECRET=<JWT signing secret>
+```
+
+For local development, point `frontend/.env` to the backend:
+
+```
+VITE_API_URL=http://localhost:3001
+```
+
+When deploying, update the two `.env` files with the production URLs and credentials.
+
 ## Usage
 
 - Add your income and expenses to keep track of your financial activities.
