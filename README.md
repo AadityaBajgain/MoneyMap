@@ -65,7 +65,7 @@ For local development, point `frontend/.env` to the backend:
 VITE_API_URL=http://localhost:3001
 ```
 
-When deploying, update the two `.env` files with the production URLs and credentials.
+When deploying, create `frontend/.env.production` with the hosted API URL (e.g. `VITE_API_URL=https://money-map-blush.vercel.app`) and update the backend’s `FrontendURL`/`FRONTEND_URL` env to your frontend origin (e.g. `https://money-map-reqf.vercel.app`).
 
 ## Usage
 
