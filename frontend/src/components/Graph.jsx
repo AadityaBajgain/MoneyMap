@@ -2,44 +2,35 @@ import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import 'chart.js/auto';
 import { Link } from 'react-router-dom';
-//images
-import deletee from "../assets/delete.png"
-import edit from "../assets/edit.png"
+import deletee from "../assets/delete.png";
+import edit from "../assets/edit.png";
 import { buildApiUrl } from '../hooks/api';
 import { useAuthContext } from '../hooks/UseAuthContext';
 
 const Graph = ({ expense, total, onDelete }) => {
     const { user } = useAuthContext();
 
-    const doughnutData = (expense) => ({
-        labels: [`${expense.category === 'Expense' ? 'Expense' : 'Income'}`, 'Remaining'],
+    const remaining = Math.max(total - expense.amount, 0);
+    const doughnutData = {
+        labels: [expense.category === 'Expense' ? 'Expense' : 'Income', 'Remaining'],
         datasets: [
             {
-                data: [expense.amount, total - expense.amount],
-                backgroundColor: [`${expense.category === 'Expense' ? 'rgba(255, 99, 132, 0.2)' : 'rgba(0,255,0,0.2)'}`, 'rgba(75, 192, 192, 0.2)'],
-                borderColor: [`${expense.category === 'Expense' ? 'rgba(255, 99, 132, 1)' : 'rgba(0,255,0,1)'}`, 'rgba(75, 192, 192, 1)'],
+                data: [expense.amount, remaining],
+                backgroundColor: [
+                    expense.category === 'Expense' ? 'rgba(248,113,113,0.35)' : 'rgba(74,222,128,0.35)',
+                    'rgba(148,163,184,0.25)',
+                ],
+                borderColor: [
+                    expense.category === 'Expense' ? 'rgba(248,113,113,1)' : 'rgba(74,222,128,1)',
+                    'rgba(148,163,184,0.6)',
+                ],
                 borderWidth: 1,
             },
         ],
-    });
-
-    const options = {
-        plugins: {
-            legend: {
-                labels: {
-                    boxWidth: 20,
-                    padding: 10,
-                    usePointStyle: true,
-                },
-
-                position: 'bottom',
-            },
-        },
     };
+
     const handleDeleteClick = async () => {
-        if (!user) {
-            return;
-        }
+        if (!user) return;
         try {
             const response = await fetch(buildApiUrl(`/api/expense/${expense._id}`), {
                 method: 'DELETE',
@@ -57,36 +48,53 @@ const Graph = ({ expense, total, onDelete }) => {
             console.log(error.message);
         }
     };
-    function deleteForSure() {
-        let sure = prompt("Are you sure you want to delete this expense? Type 'yes' to confirm");
+
+    const confirmDelete = () => {
+        const sure = prompt("Type 'yes' to confirm deletion");
         if (sure === 'yes') {
             handleDeleteClick();
         }
-        else if (sure === null || sure !== 'yes') {
-            onCancel();
-        }
-    }
-    function onCancel() {
-        alert('Expense not deleted');
-    }
+    };
+
+    const pillClasses = expense.category === 'Expense'
+        ? 'bg-rose-500/10 text-rose-200 border border-rose-500/30'
+        : 'bg-emerald-500/10 text-emerald-200 border border-emerald-500/30';
+
     return (
-        <div className='w-[50vw] border-2 border-slate-400 rounded-md p-4 m-2 md:w-[fit] lg:w-[280px]'>
-            <div className='flex justify-between'> 
+        <div className='glass-panel-soft w-full max-w-sm p-5 text-slate-200'>
+            <div className='flex items-start justify-between'>
                 <div>
-                    <h3 className='text-2xl font-bold text-blue-400'>{expense.title}</h3>
-                    <p><strong>Date:</strong> {expense.date}</p>
-                    <p><strong>Amount : </strong> ${expense.amount}</p>
+                    <p className='text-xs uppercase tracking-[0.4em] text-slate-500'>{expense.date}</p>
+                    <h3 className='mt-1 text-xl font-semibold text-white'>{expense.title}</h3>
+                    <div className='mt-2 inline-flex items-center gap-2'>
+                        <span className={`rounded-full px-3 py-1 text-xs font-semibold ${pillClasses}`}>
+                            {expense.category}
+                        </span>
+                        <span className='text-sm text-slate-400'>{expense.type}</span>
+                    </div>
+                    <p className='mt-3 text-2xl font-semibold text-white'>${expense.amount}</p>
                 </div>
-                <div className='flex space-x-2'>
-                    <img src={deletee} alt="Delete" onClick={(deleteForSure)} className='w-[1.5rem] h-fit cursor-pointer' />
-                    <Link to={`/edit/${expense._id}`}>
-                        <img src={edit} alt="Edit" className='w-[1.5rem]' />
+                <div className='flex gap-3'>
+                    <button onClick={confirmDelete} className='rounded-full border border-white/10 p-2 transition hover:border-rose-400/60 hover:bg-rose-500/10'>
+                        <img src={deletee} alt="Delete" className='h-4 w-4' />
+                    </button>
+                    <Link to={`/edit/${expense._id}`} className='rounded-full border border-white/10 p-2 transition hover:border-emerald-400/60 hover:bg-emerald-500/10'>
+                        <img src={edit} alt="Edit" className='h-4 w-4' />
                     </Link>
                 </div>
             </div>
-            <div className='flex justify-around'>
-                <div className='w-[150px] h-[150px] md:w-[100px]h-[100px]'>
-                    <Doughnut data={doughnutData(expense)} options={options} />
+            <div className='mt-4 flex justify-center'>
+                <div className='h-40 w-40'>
+                    <Doughnut
+                        data={doughnutData}
+                        options={{
+                            plugins: {
+                                legend: {
+                                    display: false,
+                                },
+                            },
+                        }}
+                    />
                 </div>
             </div>
         </div>

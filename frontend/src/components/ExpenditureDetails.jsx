@@ -1,26 +1,25 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-//images
-import deletee from "../assets/delete.png"
-import edit from "../assets/edit.png"
-import {useAuthContext} from "../hooks/UseAuthContext";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import deletee from "../assets/delete.png";
+import edit from "../assets/edit.png";
+import { useAuthContext } from "../hooks/UseAuthContext";
 import { buildApiUrl } from '../hooks/api';
+
 const ExpenditureDetails = ({ expense, onDelete, index }) => {
-    const {user} = useAuthContext();
+    const { user } = useAuthContext();
+
     const handleDeleteClick = async () => {
-        if (!user) {
-            return;
-        }
+        if (!user) return;
         try {
             const response = await fetch(buildApiUrl(`/api/expense/${expense._id}`), {
                 method: 'DELETE',
-                headers:{
+                headers: {
                     "Authorization": `Bearer ${user.token}`
                 }
             });
 
             if (response.ok) {
-                onDelete();
+                onDelete?.();
             } else {
                 console.error('Failed to delete expense');
             }
@@ -28,39 +27,34 @@ const ExpenditureDetails = ({ expense, onDelete, index }) => {
             console.log(error.message);
         }
     };
-    function deleteForSure() {
-        let sure = prompt("Are you sure you want to delete this expense? Type 'yes' to confirm");
+
+    const confirmDelete = () => {
+        const sure = prompt("Type 'yes' to confirm deletion");
         if (sure === 'yes') {
             handleDeleteClick();
-        } else if (sure === null || sure !== 'yes') {
-            onCancel();
         }
-    }   
-    function onCancel() {
-        alert('Expense not deleted');
-    }
-    return (
+    };
 
-        <tr className='text-sm md:text-base text-center'>
-            <td className='py-2'>{index}</td>
-            <td className='py-2 hidden md:table-cell'>{expense.date}</td>
-            <td className='py-2'>{expense.title}</td>
-            <td className='py-2'>${expense.amount}</td>
-            <td className='hidden lg:table-cell py-2'>{expense.category}</td>
-            <td className='hidden lg:table-cell py-2'>{expense.type}</td>
-            <td className='flex justify-center mt-1 space-x-2'>
-                <span className='w-[1.25rem] md:w-[1.5rem] cursor-pointer' onClick={(deleteForSure)}  >
-                    <img src={deletee} alt="Delete" />
-                </span>
-                <span className='w-[1.25rem] md:w-[1.5rem]'>
-                    <Link to={`/edit/${expense._id}`}>
-                        <img src={edit} alt="Edit" />
+    return (
+        <tr className='text-sm text-slate-200'>
+            <td className='py-4 pl-4 text-left text-xs uppercase tracking-[0.3em] text-slate-500'>{index}</td>
+            <td className='hidden py-4 text-left text-slate-300 md:table-cell'>{expense.date}</td>
+            <td className='py-4 text-left font-semibold text-white'>{expense.title}</td>
+            <td className='py-4 text-center font-semibold text-white'>${expense.amount}</td>
+            <td className='hidden py-4 text-center text-slate-400 lg:table-cell'>{expense.category}</td>
+            <td className='hidden py-4 text-center text-slate-400 lg:table-cell'>{expense.type}</td>
+            <td className='py-4 pr-4'>
+                <div className='flex items-center justify-end gap-3'>
+                    <button onClick={confirmDelete} className='rounded-full border border-white/10 p-2 transition hover:border-rose-400/60 hover:bg-rose-500/10'>
+                        <img src={deletee} alt="Delete" className='h-4 w-4' />
+                    </button>
+                    <Link to={`/edit/${expense._id}`} className='rounded-full border border-white/10 p-2 transition hover:border-emerald-400/60 hover:bg-emerald-500/10'>
+                        <img src={edit} alt="Edit" className='h-4 w-4' />
                     </Link>
-                </span>
+                </div>
             </td>
         </tr>
+    );
+};
 
-    )
-}
-
-export default ExpenditureDetails
+export default ExpenditureDetails;

@@ -1,12 +1,105 @@
-@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Oswald:wght@200..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body{
-    font-family: serif;
-    margin: auto;
-    background:black;
-    color:white;
-    font-family:'Kanit';
+:root {
+  --mm-bg: #020617;
+  --mm-surface: rgba(15, 23, 42, 0.78);
+  --mm-border: rgba(148, 163, 184, 0.25);
+  --mm-primary: #8b5cf6;
+  --mm-accent: #34d399;
+  --mm-text: #e2e8f0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Kanit', 'Inter', sans-serif;
+  background: radial-gradient(circle at top, rgba(99, 102, 241, 0.25), transparent 45%),
+    radial-gradient(circle at 20% 20%, rgba(16, 185, 129, 0.3), transparent 40%),
+    var(--mm-bg);
+  background-attachment: fixed;
+  color: var(--mm-text);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.glass-panel {
+  background: var(--mm-surface);
+  border: 1px solid var(--mm-border);
+  border-radius: 1.5rem;
+  box-shadow: 0 20px 60px rgba(2, 6, 23, 0.6);
+  backdrop-filter: blur(24px);
+}
+
+.glass-panel-soft {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 1.25rem;
+  box-shadow: 0 10px 40px rgba(2, 6, 23, 0.5);
+  backdrop-filter: blur(18px);
+}
+
+.primary-btn {
+  background: linear-gradient(135deg, #7c3aed, #4ade80);
+  color: #0f172a;
+  border: none;
+  border-radius: 999px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
+}
+
+.primary-btn:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px rgba(74, 222, 128, 0.35);
+}
+
+.pill-toggle {
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  padding: 0.3rem;
+  display: inline-flex;
+}
+
+.pill-toggle button {
+  border-radius: 999px;
+  padding: 0.45rem 1.25rem;
+  font-weight: 600;
+  color: rgba(226, 232, 240, 0.8);
+  transition: all 0.2s ease;
+}
+
+.soft-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.soft-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.soft-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.3);
+  border-radius: 999px;
+}
+
+.soft-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.5);
 }
