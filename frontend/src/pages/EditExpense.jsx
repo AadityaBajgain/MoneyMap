@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import './EditExpense.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuthContext } from '../hooks/UseAuthContext';
 import { buildApiUrl } from '../hooks/api';
 import { CATEGORY_OPTIONS, TYPE_OPTIONS } from '../constants/expenseOptions';
+
+const inputStyles = 'w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-100 placeholder:text-slate-500 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-300/30';
 
 const EditExpense = () => {
   const [title, setTitle] = useState('');
@@ -76,13 +77,8 @@ const EditExpense = () => {
     const [day, month, year] = date.split('-').map(Number);
     const formattedDate = new Date(year, month - 1, day);
 
-    if (Number.isNaN(formattedDate.getTime())) {
-      setError('Invalid date provided.');
-      return;
-    }
-
-    if (formattedDate > new Date()) {
-      setError('Date cannot be in the future.');
+    if (Number.isNaN(formattedDate.getTime()) || formattedDate > new Date()) {
+      setError('Date must be valid and not in the future.');
       return;
     }
 
@@ -113,72 +109,70 @@ const EditExpense = () => {
 
   if (loading) {
     return (
-      <div className='w-full text-center mt-10'>
-        <p>Loading expense...</p>
+      <div className="mx-auto max-w-4xl px-4 py-12 text-center text-slate-400">
+        <div className="glass-panel-soft mx-auto w-full max-w-lg rounded-2xl px-6 py-10">
+          <p className="text-sm uppercase tracking-[0.5em] text-slate-500">Loading</p>
+          <p className="mt-4 text-lg text-white">Fetching transaction...</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div>
-      <form
-        className='w-[90vw] md:w-[50vw] h-fit border-2 border-slate-400 rounded-md p-4 text-center mt-[2rem]'
-        onSubmit={handleFormSubmit}
-      >
-        <h1 className='text-[2rem] md:text-[4rem] text-blue-300'>Edit Expense</h1>
-        <div className='flex flex-col'>
-          {error && <p className='text-red-500'>{error}</p>}
-          <label className='text-sm md:text-base'>Title</label>
-          <input
-            type="text"
-            className='w-full md:w-auto text-sm md:text-base'
-            onChange={(e) => setTitle(e.target.value)}
-            value={title}
-          />
-          <label className='text-sm md:text-base'>Amount:</label>
-          <input
-            type="number"
-            className='w-full md:w-auto text-sm md:text-base'
-            onChange={(e) => setAmount(e.target.value)}
-            value={amount}
-          />
-          <label className='text-sm md:text-base'>Category</label>
-          <select
-            className='w-full md:w-auto text-sm md:text-base'
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          >
-            {CATEGORY_OPTIONS.map((option) => (
-              <option key={option} value={option}>{option}</option>
-            ))}
-          </select>
-          <label className='text-sm md:text-base'>Date *(dd-mm-yyyy)</label>
-          <input
-            type="text"
-            className='w-full md:w-auto text-sm md:text-base'
-            onChange={(e) => setDate(e.target.value)}
-            value={date}
-          />
-          <label className='text-sm md:text-base'>Type</label>
-          <select
-            className='w-full md:w-auto text-sm md:text-base'
-            value={type}
-            onChange={(e) => setType(e.target.value)}
-          >
-            {TYPE_OPTIONS.map((option) => (
-              <option key={option} value={option}>{option}</option>
-            ))}
-          </select>
-          {(title && amount && date && category && type) ? (
-            <button className='w-full md:w-auto text-sm md:text-base' disabled={saving}>
-              {saving ? 'Saving...' : 'Submit'}
-            </button>
-          ) : (
-            <button className='w-full md:w-auto text-sm md:text-base' disabled>Submit</button>
-          )}
+    <section className="mx-auto max-w-4xl px-4 py-12">
+      <div className="mb-8 text-center">
+        <p className="text-xs uppercase tracking-[0.4em] text-slate-500">Refine</p>
+        <h1 className="text-3xl font-semibold text-white md:text-4xl">Edit transaction</h1>
+        <p className="text-sm text-slate-400">Update the details so your trends stay accurate.</p>
+      </div>
+
+      <form onSubmit={handleFormSubmit} className="glass-panel space-y-6 px-6 py-8">
+        {error && <p className="rounded-2xl border border-rose-500/40 bg-rose-500/10 px-4 py-3 text-sm text-rose-200">{error}</p>}
+
+        <div className="space-y-3">
+          <label className="text-xs uppercase tracking-[0.3em] text-slate-400">Title</label>
+          <input type="text" className={inputStyles} value={title} onChange={(e) => setTitle(e.target.value)} />
         </div>
+
+        <div className="grid gap-5 md:grid-cols-2">
+          <div className="space-y-3">
+            <label className="text-xs uppercase tracking-[0.3em] text-slate-400">Amount</label>
+            <input type="number" className={inputStyles} value={amount} onChange={(e) => setAmount(e.target.value)} />
+          </div>
+          <div className="space-y-3">
+            <label className="text-xs uppercase tracking-[0.3em] text-slate-400">Category</label>
+            <select className={`${inputStyles} bg-slate-900/40`} value={category} onChange={(e) => setCategory(e.target.value)}>
+              {CATEGORY_OPTIONS.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <div className="grid gap-5 md:grid-cols-2">
+          <div className="space-y-3">
+            <label className="text-xs uppercase tracking-[0.3em] text-slate-400">Date (dd-mm-yyyy)</label>
+            <input type="text" className={inputStyles} value={date} onChange={(e) => setDate(e.target.value)} />
+          </div>
+          <div className="space-y-3">
+            <label className="text-xs uppercase tracking-[0.3em] text-slate-400">Type</label>
+            <select className={`${inputStyles} bg-slate-900/40`} value={type} onChange={(e) => setType(e.target.value)}>
+              {TYPE_OPTIONS.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <button disabled={saving} className="primary-btn w-full text-sm">
+          {saving ? 'Updating...' : 'Update transaction'}
+        </button>
       </form>
-    </div>
+    </section>
   );
 };
 

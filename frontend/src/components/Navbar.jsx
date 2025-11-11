@@ -4,11 +4,7 @@ import { useLogout } from '../hooks/UseLogout';
 import money from '../assets/money.png';
 import { useAuthContext } from '../hooks/UseAuthContext';
 
-const navLinks = [
-    { label: 'Overview', href: '/#overview' },
-    { label: 'Insights', href: '/#insights' },
-    { label: 'Transactions', href: '/#transactions' },
-];
+
 
 const Navbar = () => {
     const { logout } = useLogout();
@@ -32,17 +28,7 @@ const Navbar = () => {
                     </div>
                 </Link>
 
-                <div className="hidden items-center gap-6 text-sm text-slate-300 md:flex">
-                    {navLinks.map((link) => (
-                        <Link
-                            key={link.href}
-                            to={link.href}
-                            className="rounded-full px-3 py-1 font-medium text-slate-300 transition hover:text-white"
-                        >
-                            {link.label}
-                        </Link>
-                    ))}
-                </div>
+        
 
                 <div className="flex items-center gap-3">
                     {user ? (
