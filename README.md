@@ -74,15 +74,11 @@ When deploying, create `frontend/.env.production` with the hosted API URL (e.g. 
 - Set financial goals and track your progress.
 
 ## Screenshots
-**LogIn Page** ![Screenshot 2025-03-04 115008](https://github.com/user-attachments/assets/de12d9bc-fc5f-44e0-959b-3d49abecd257)
-**Dashboard with Table view**![Screenshot 2025-03-04 121027](https://github.com/user-attachments/assets/458fc976-ecc4-45e6-8db9-813e9c5111d5)
+**LogIn Page** <img width="1861" height="981" alt="Screenshot 2025-11-11 at 10 10 25" src="https://github.com/user-attachments/assets/dc0289ed-873c-490f-a67a-2c8f3907dc5d" />
 
 
-
-**Dashboard with Graph view**![Screenshot 2025-03-04 121041](https://github.com/user-attachments/assets/01dcaf7f-2a4e-47d9-9269-ddd79329a995)
-
-
-**Add Transaction**![Screenshot 2025-03-04 121306](https://github.com/user-attachments/assets/73c82674-6c2c-4c91-8510-091a370c85de)
+**Dashboard**
+<img width="1802" height="973" alt="Screenshot 2025-11-11 at 10 10 54" src="https://github.com/user-attachments/assets/3a61ef12-0673-4b1a-b8f6-44c24aca0526" />
 
 
 
