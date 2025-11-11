@@ -154,14 +154,14 @@ const Home = () => {
           <div className="flex flex-wrap items-center gap-3">
             <div className="pill-toggle">
               <button
-                className={selected === 'table' ? 'bg-white text-slate-900 shadow-lg' : ''}
+                className={selected === 'table' ? 'bg-slate-700 text-black shadow-lg' : ''}
                 onClick={() => setSelected('table')}
                 type="button"
               >
                 Table
               </button>
               <button
-                className={selected === 'chart' ? 'bg-white text-slate-900 shadow-lg' : ''}
+                className={selected === 'chart' ? 'bg-slate-700 text-slate-900 shadow-lg' : ''}
                 onClick={() => setSelected('chart')}
                 type="button"
               >
