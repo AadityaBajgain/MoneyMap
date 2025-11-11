@@ -39,7 +39,7 @@ const TableSummary = ({ expenses = [] }) => {
 
     return (
         <div className="glass-panel w-full px-6 py-8 text-slate-200">
-            <div className="grid gap-8 md:grid-cols-[1.4fr_1fr]">
+            <div className="flex sm:flex-col gap-5 items-center">
                 <div>
                     <p className="text-xs uppercase tracking-[0.4em] text-slate-400">Snapshot</p>
                     <h2 className="mt-2 text-2xl font-semibold text-white md:text-3xl">Transaction summary</h2>
@@ -74,7 +74,7 @@ const TableSummary = ({ expenses = [] }) => {
                     </div>
                 </div>
 
-                <div className="rounded-2xl border border-white/10 bg-slate-900/60 p-4">
+                <div className="max-w-fit rounded-2xl border border-white/10 bg-slate-900/60 p-4">
                     {hasData ? (
                         <Pie
                             data={data}
