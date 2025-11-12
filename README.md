@@ -46,7 +46,7 @@ To install and run MoneyMap locally, follow these steps:
     cd frontend
     npm start
     ```
-6. Open `http://localhost:3000` in your web browser to start using the application.
+6. Open `http://localhost:3001` in your web browser to start using the application.
 
 ### Environment variables
 
